@@ -50,7 +50,7 @@
         WHERE enterprise_id = #{enterpriseId}
         AND delete_status = #{deleteStatus}
         <if test="keyword != null and keyword != ''">
-            AND name LIKE CONCAT('%', #{keyword},'%')
+            AND CONCAT(name, no) LIKE CONCAT('%', #{keyword},'%')
         </if>
         ORDER BY modify_time DESC
     </select>
