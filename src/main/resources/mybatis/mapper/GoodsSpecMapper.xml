@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.GoodsSpecMapper">
+
+    <resultMap id="goodsSpec" type="com.bc.erp.entity.GoodsSpec">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
+        <result column="x" property="x" jdbcType="VARCHAR"/>
+        <result column="y" property="y" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="getGoodsSpecListByGoodsId" resultMap="goodsSpec">
+        SELECT *
+        FROM t_goods_spec
+        WHERE goods_id = #{goodsId}
+        ORDER BY sort ASC
+    </select>
+
+</mapper>

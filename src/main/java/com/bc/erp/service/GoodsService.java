@@ -1,8 +1,10 @@
 package com.bc.erp.service;
 
 import com.bc.erp.entity.Goods;
+import com.bc.erp.entity.GoodsSpec;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,5 +30,13 @@ public interface GoodsService {
      * @return 物品分页信息
      */
     PageInfo<Goods> getGoodsPageInfo(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据物品ID获取物品规格列表
+     *
+     * @param goodsId 物品ID
+     * @return 物品规格列表
+     */
+    List<GoodsSpec> getGoodsSpecListByGoodsId(String goodsId);
 
 }

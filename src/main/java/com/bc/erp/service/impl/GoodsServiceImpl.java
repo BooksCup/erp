@@ -1,7 +1,9 @@
 package com.bc.erp.service.impl;
 
 import com.bc.erp.entity.Goods;
+import com.bc.erp.entity.GoodsSpec;
 import com.bc.erp.mapper.GoodsMapper;
+import com.bc.erp.mapper.GoodsSpecMapper;
 import com.bc.erp.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -21,6 +23,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Resource
     GoodsMapper goodsMapper;
+
+    @Resource
+    GoodsSpecMapper goodsSpecMapper;
 
     /**
      * 新增物品
@@ -45,6 +50,17 @@ public class GoodsServiceImpl implements GoodsService {
         PageHelper.startPage(pageNum, pageSize);
         List<Goods> goodsList = goodsMapper.getGoodsList(paramMap);
         return new PageInfo<>(goodsList);
+    }
+
+    /**
+     * 根据物品ID获取物品规格列表
+     *
+     * @param goodsId 物品ID
+     * @return 物品规格列表
+     */
+    @Override
+    public List<GoodsSpec> getGoodsSpecListByGoodsId(String goodsId) {
+        return goodsSpecMapper.getGoodsSpecListByGoodsId(goodsId);
     }
 
 }
