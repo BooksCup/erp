@@ -1,14 +1,10 @@
 package com.bc.erp.controller;
 
 import com.bc.erp.cons.Constant;
-import com.bc.erp.entity.Goods;
-import com.bc.erp.entity.GoodsSpec;
 import com.bc.erp.entity.WareHouse;
 import com.bc.erp.enums.FlagEnum;
 import com.bc.erp.enums.ResponseMsg;
 import com.bc.erp.service.WareHouseService;
-import com.bc.erp.utils.JsonUtil;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
