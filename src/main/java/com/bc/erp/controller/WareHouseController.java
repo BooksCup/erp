@@ -40,13 +40,14 @@ public class WareHouseController {
             @RequestParam String contactPhone,
             @RequestParam String province,
             @RequestParam String city,
+            @RequestParam String district,
             @RequestParam String address,
             @RequestParam String remark,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         try {
             WareHouse wareHouse = new WareHouse(enterpriseId, userId, parentId, name,
-                    contactName, contactPhone, province, city, address, remark, createId);
+                    contactName, contactPhone, province, city, district, address, remark, createId);
             wareHouseService.addWareHouse(wareHouse);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {

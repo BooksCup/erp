@@ -2,6 +2,7 @@ package com.bc.erp.mapper;
 
 import com.bc.erp.entity.User;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +18,14 @@ public interface UserMapper {
      * @param paramMap 参数map
      * @return 用户
      */
-    User getUserByPhoneAndPwd(Map<String, Object> paramMap);
+    List<User> getUserByPhoneAndPwd(Map<String, Object> paramMap);
+
+    /**
+     * 搜索用户
+     *
+     * @param paramMap 参数map
+     * @return 用户列表
+     */
+    List<User> searchUser(Map<String, Object> paramMap);
 
 }

@@ -15,6 +15,7 @@
         <result column="city" property="city" jdbcType="VARCHAR"/>
         <result column="district" property="district" jdbcType="DECIMAL"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="child_count" property="childWareHouseCount" jdbcType="INTEGER"/>
         <result column="remark" property="remark" jdbcType="DECIMAL"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
@@ -66,5 +67,17 @@
         AND parent_id = #{parentId}
         ORDER BY modify_time DESC
     </select>
+
+    <select id="getChildWareHouseCount" resultType="Integer">
+        SELECT COUNT(1)
+        FROM t_ware_house
+        WHERE parent_id = #{wareHouseId}
+    </select>
+
+    <update id="updateChildWareHouseCount" parameterType="map">
+        UPDATE t_ware_house
+        SET child_count = #{childWareHouseCount}
+        WHERE id = #{wareHouseId}
+    </update>
 
 </mapper>

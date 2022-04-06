@@ -27,4 +27,19 @@ public interface WareHouseMapper {
      */
     List<WareHouse> getWareHouseList(Map<String, Object> paramMap);
 
+    /**
+     * 获取子仓库数量
+     *
+     * @param wareHouseId 仓库ID
+     * @return 子仓库数量
+     */
+    Integer getChildWareHouseCount(String wareHouseId);
+
+    /**
+     * 更新子仓库数量
+     *
+     * @param paramMap 参数map
+     */
+    void updateChildWareHouseCount(Map<String, Object> paramMap);
+
 }

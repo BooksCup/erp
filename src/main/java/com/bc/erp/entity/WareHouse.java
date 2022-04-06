@@ -24,6 +24,10 @@ public class WareHouse {
     private String remark;
     private String createId;
     private String createTime;
+    /**
+     * 子仓库数量
+     */
+    private Integer childWareHouseCount;
 
     public WareHouse() {
 
@@ -31,7 +35,7 @@ public class WareHouse {
 
     public WareHouse(String enterpriseId, String userId, String parentId,
                      String name, String contactName, String contactPhone,
-                     String province, String city, String address, String remark, String createId) {
+                     String province, String city, String district, String address, String remark, String createId) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.userId = userId;
@@ -41,6 +45,7 @@ public class WareHouse {
         this.contactPhone = contactPhone;
         this.province = province;
         this.city = city;
+        this.district = district;
         this.address = address;
         this.remark = remark;
         this.createId = createId;
@@ -164,6 +169,14 @@ public class WareHouse {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getChildWareHouseCount() {
+        return childWareHouseCount;
+    }
+
+    public void setChildWareHouseCount(Integer childWareHouseCount) {
+        this.childWareHouseCount = childWareHouseCount;
     }
 
 }
