@@ -36,4 +36,12 @@ public interface GoodsMapper {
      */
     List<GoodsSpec> getGoodsSpecListByGoodsId(String goodsId);
 
+    /**
+     * 根据物品ID获取物品详情
+     *
+     * @param goodsId 物品ID
+     * @return 物品详情
+     */
+    Goods getGoodsById(String goodsId);
+
 }

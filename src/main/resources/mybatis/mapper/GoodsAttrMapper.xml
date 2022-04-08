@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.GoodsAttrMapper">
+
+    <resultMap id="goodsAttr" type="com.bc.erp.entity.GoodsAttr">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
+        <result column="attr_key" property="attrKey" jdbcType="VARCHAR"/>
+        <result column="attr_value" property="attrValue" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addGoodsAttrList" parameterType="list">
+        insert into t_goods_attr
+        (
+        id,
+        goods_id,
+        attr_key,
+        attr_value,
+        sort,
+        create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.goodsId},
+            #{item.attrKey},
+            #{item.attrValue},
+            #{item.sort},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <select id="getGoodsAttrListByGoodsId" resultMap="goodsAttr">
+        SELECT *
+        FROM t_goods_attr
+        WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="deleteGoodsAttrByGoodsId" parameterType="String">
+        DELETE
+        FROM t_goods_attr
+        WHERE goods_id = #{goodsId}
+    </select>
+
+</mapper>

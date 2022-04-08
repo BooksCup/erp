@@ -28,7 +28,7 @@
         create_time,
         modify_time
         )
-        values
+        VALUES
         (
         #{id},
         #{enterpriseId},
@@ -53,6 +53,12 @@
             AND CONCAT(name, no) LIKE CONCAT('%', #{keyword},'%')
         </if>
         ORDER BY modify_time DESC
+    </select>
+
+    <select id="getGoodsById" resultMap="goods" parameterType="String">
+        SELECT *
+        FROM t_goods
+        WHERE id = #{goodsId}
     </select>
 
 </mapper>

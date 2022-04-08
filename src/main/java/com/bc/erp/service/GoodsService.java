@@ -3,6 +3,7 @@ package com.bc.erp.service;
 import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.GoodsSpec;
 import com.github.pagehelper.PageInfo;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,13 @@ public interface GoodsService {
     void addGoods(Goods goods);
 
     /**
+     * 修改物品
+     *
+     * @param goods 物品
+     */
+    void updateGoods(Goods goods);
+
+    /**
      * 获取物品分页信息
      *
      * @param paramMap 参数map
@@ -38,5 +46,13 @@ public interface GoodsService {
      * @return 物品规格列表
      */
     List<GoodsSpec> getGoodsSpecListByGoodsId(String goodsId);
+
+    /**
+     * 根据物品ID获取物品详情
+     *
+     * @param goodsId 物品ID
+     * @return 物品详情
+     */
+    Goods getGoodsById(String goodsId);
 
 }

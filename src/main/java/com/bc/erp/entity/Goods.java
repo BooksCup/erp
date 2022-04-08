@@ -24,13 +24,16 @@ public class Goods {
     private String unit;
     private String createId;
     private String createTime;
+    private List<GoodsAttr> goodsAttrList;
     private List<GoodsSpec> goodsSpecList;
 
     public Goods() {
 
     }
 
-    public Goods(String enterpriseId, String name, String photos, String type, String specX, String specY, List<GoodsSpec> goodsSpecList, String createId) {
+    public Goods(String enterpriseId, String name, String photos,
+                 String type, String specX, String specY,
+                 List<GoodsAttr> goodsAttrList, List<GoodsSpec> goodsSpecList, String createId) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.name = name;
@@ -39,6 +42,7 @@ public class Goods {
         this.specX = specX;
         this.specY = specY;
         this.goodsSpecList = goodsSpecList;
+        this.goodsAttrList = goodsAttrList;
         this.createId = createId;
     }
 
@@ -136,6 +140,14 @@ public class Goods {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public List<GoodsAttr> getGoodsAttrList() {
+        return goodsAttrList;
+    }
+
+    public void setGoodsAttrList(List<GoodsAttr> goodsAttrList) {
+        this.goodsAttrList = goodsAttrList;
     }
 
     public List<GoodsSpec> getGoodsSpecList() {

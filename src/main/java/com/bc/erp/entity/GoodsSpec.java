@@ -17,6 +17,7 @@ public class GoodsSpec {
     private String barCode;
     private BigDecimal price;
     private BigDecimal num;
+    private Integer sort;
     private String createTime;
 
     public String getId() {
@@ -81,6 +82,14 @@ public class GoodsSpec {
 
     public void setNum(BigDecimal num) {
         this.num = num;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public String getCreateTime() {

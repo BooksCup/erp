@@ -10,6 +10,31 @@
         <result column="num" property="num" jdbcType="DECIMAL"/>
     </resultMap>
 
+    <insert id="addGoodsSpecList" parameterType="list">
+        INSERT INTO t_goods_spec
+        (
+        id,
+        goods_id,
+        x,
+        y,
+        num,
+        sort,
+        create_time
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.goodsId},
+            #{item.x},
+            #{item.y},
+            #{item.num},
+            #{item.sort},
+            now()
+            )
+        </foreach>
+    </insert>
+
     <select id="getGoodsSpecListByGoodsId" resultMap="goodsSpec">
         SELECT *
         FROM t_goods_spec

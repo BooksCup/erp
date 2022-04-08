@@ -12,6 +12,13 @@ import java.util.List;
 public interface GoodsSpecMapper {
 
     /**
+     * 新增物品规格列表
+     *
+     * @param goodsSpecList 物品规格列表
+     */
+    void addGoodsSpecList(List<GoodsSpec> goodsSpecList);
+
+    /**
      * 根据物品ID获取物品规格列表
      *
      * @param goodsId 物品ID
