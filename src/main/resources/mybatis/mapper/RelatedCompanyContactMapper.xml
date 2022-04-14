@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.RelatedCompanyContactMapper">
+
+    <insert id="addRelatedCompanyContactList" parameterType="list">
+        INSERT INTO t_related_company_contact
+        (
+        id,
+        enterprise_id,
+        rc_id,
+        name,
+        sex,
+        job,
+        phone,
+        email,
+        sort,
+        create_id,
+        create_time
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.enterpriseId},
+            #{item.rcId},
+            #{item.name},
+            #{item.sex},
+            #{item.job},
+            #{item.phone},
+            #{item.email},
+            #{item.sort},
+            #{item.createId},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateRelatedCompanyContactList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+            UPDATE t_related_company_contact
+            SET
+            name = #{name},
+            sex = #{sex},
+            job = #{job},
+            phone = #{phone},
+            email = #{email}
+            where id = #{id}
+        </foreach>
+    </update>
+
+
+</mapper>
