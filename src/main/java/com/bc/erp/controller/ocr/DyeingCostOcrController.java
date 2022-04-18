@@ -2,10 +2,10 @@ package com.bc.erp.controller.ocr;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.erp.cons.Constant;
-import com.bc.erp.entity.ocr.CellInfo;
-import com.bc.erp.entity.ocr.OcrResponse;
-import com.bc.erp.entity.ocr.PrismTablesInfo;
-import com.bc.erp.entity.ocr.Response;
+import com.bc.erp.entity.ocr.*;
+import com.bc.erp.enums.OcrModuleTypeEnum;
+import com.bc.erp.enums.ResponseMsg;
+import com.bc.erp.service.OcrLogService;
 import com.bc.erp.utils.*;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -21,15 +21,16 @@ import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
+
+import com.aliyun.ocr_api20210707.models.*;
+import com.aliyun.teaopenapi.models.*;
+
 
 /**
  * 文字识别 - 染费单
- * 2464
  *
  * @author zhou
  */
@@ -50,58 +51,35 @@ public class DyeingCostOcrController {
     @Resource
     OssUtil ossUtil;
 
+    @Resource
+    OcrLogService ocrLogService;
+
     @ApiOperation(value = "识别染费结算单并生成excel", notes = "识别染费结算单并生成excel")
     @GetMapping(value = "")
     public ResponseEntity<String> transfer2Excel(
-            @RequestParam String imgUrl, HttpServletResponse response) {
+            @RequestParam String imgUrl) {
         ResponseEntity<String> responseEntity;
+        long beginTimeStamp = System.currentTimeMillis();
         try {
-            String signatureMethod = "HMAC-SHA1";
-            String signatureNonce = CommonUtil.generateId();
-            String signatureVersion = "1.0";
-            String format = "JSON";
-            String version = "2021-07-07";
-            String action = "RecognizeTableOcr";
-
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            // 设置GMT时区
-            simpleDateFormat.setTimeZone(new java.util.SimpleTimeZone(0, "GMT"));
-            String timeStamp = simpleDateFormat.format(new Date());
-
-            java.util.Map<String, String> params = new java.util.HashMap<>();
-            // 1. 系统参数
-            params.put("SignatureMethod", signatureMethod);
-            params.put("SignatureNonce", signatureNonce);
-            params.put("AccessKeyId", accessKeyId);
-            params.put("SignatureVersion", signatureVersion);
-            params.put("Timestamp", timeStamp);
-            params.put("Format", format);
-            // 2. 业务API参数
-            params.put("Url", imgUrl);
-            params.put("Version", version);
-            params.put("Action", action);
-            if (params.containsKey("Signature")) {
-                params.remove("Signature");
+            OcrLog ocrLog = new OcrLog(OcrModuleTypeEnum.DYEING_COST.getCode(), imgUrl);
+            com.aliyun.ocr_api20210707.Client client = createClient(accessKeyId, accessSecret);
+            RecognizeTableOcrRequest recognizeTableOcrRequest = new RecognizeTableOcrRequest();
+            recognizeTableOcrRequest.setUrl(imgUrl);
+            // 复制代码运行请自行打印 API 的返回值
+            RecognizeTableOcrResponse recognizeTableOcrResponse = client.recognizeTableOcr(recognizeTableOcrRequest);
+            try {
+                String fileName = handleOcrResponse(recognizeTableOcrResponse.getBody().getData());
+                ocrLog.setResultUrl(fileName);
+                ocrLog.setStatus(ResponseMsg.SUCCESS.getCode());
+                responseEntity = new ResponseEntity<>(fileName, HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                ocrLog.setStatus(ResponseMsg.ERROR.getCode());
+                responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-            java.util.TreeMap<String, String> sortParams = new java.util.TreeMap<>();
-            sortParams.putAll(params);
-            java.util.Iterator<String> it = sortParams.keySet().iterator();
-            StringBuilder sortQueryStringSb = new StringBuilder();
-            while (it.hasNext()) {
-                String key = it.next();
-                sortQueryStringSb.append("&").append(percentEncode(key)).append("=").append(percentEncode(params.get(key)));
-            }
-            String sortedQueryString = sortQueryStringSb.substring(1);
-
-            String stringToSign = "GET" + "&" + percentEncode("/") + "&" + percentEncode(sortedQueryString);
-            String signature = sign(stringToSign, accessSecret + "&");
-            String url = "https://ocr-api.cn-hangzhou.aliyuncs.com/?Action=" + action + "&Url=" + imgUrl
-                    + "&Format=" + format + "&Version=" + version + "&SignatureVersion=" + signatureVersion
-                    + "&SignatureMethod=" + signatureMethod + "&SignatureNonce=" + signatureNonce +
-                    "&AccessKeyId=" + accessKeyId + "&Timestamp=" + timeStamp + "&Signature=" + signature;
-            String ocrResponse = HttpUtil.doGet(url);
-            String fileName = handleOcrResponse(ocrResponse);
-            responseEntity = new ResponseEntity<>(fileName, HttpStatus.OK);
+            long endTimeStamp = System.currentTimeMillis();
+            ocrLog.setCost(endTimeStamp - beginTimeStamp);
+            ocrLogService.addOcrLog(ocrLog);
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,31 +87,13 @@ public class DyeingCostOcrController {
         return responseEntity;
     }
 
-    public static String sign(String stringToSign, String accessSecret) throws Exception {
-        javax.crypto.Mac mac = javax.crypto.Mac.getInstance("HmacSHA1");
-        mac.init(new javax.crypto.spec.SecretKeySpec(accessSecret.getBytes("UTF-8"), "HmacSHA1"));
-        byte[] signData = mac.doFinal(stringToSign.getBytes("UTF-8"));
-        return new BASE64Encoder().encode(signData);
-    }
-
-    private static final String ENCODING = "UTF-8";
-
-    private static String percentEncode(String value) throws UnsupportedEncodingException {
-        return value != null ? URLEncoder.encode(value, ENCODING).replace("+", "%20").
-                replace("*", "%2A").replace("%7E", "~") : null;
-    }
-
     /**
      * 处理ocr识别结果生成excel并上传至oss
      *
-     * @param content ocr识别结果
      * @return 完整的oss文件路径
      */
-    public String handleOcrResponse(String content) throws Exception {
-        Response response = JSON.parseObject(content, Response.class);
-        String data = response.getData();
+    public String handleOcrResponse(String data) throws Exception {
         OcrResponse ocrResponse = JSON.parseObject(data, OcrResponse.class);
-        ocrResponse.getContent();
         PrismTablesInfo tablesInfo = ocrResponse.getPrism_tablesInfo().get(0);
 
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -230,6 +190,25 @@ public class DyeingCostOcrController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 使用AK&SK初始化账号Client
+     *
+     * @param accessKeyId
+     * @param accessKeySecret
+     * @return Client
+     * @throws Exception
+     */
+    private com.aliyun.ocr_api20210707.Client createClient(String accessKeyId, String accessKeySecret) throws Exception {
+        Config config = new Config()
+                // 您的AccessKey ID
+                .setAccessKeyId(accessKeyId)
+                // 您的AccessKey Secret
+                .setAccessKeySecret(accessKeySecret);
+        // 访问的域名
+        config.endpoint = "ocr-api.cn-hangzhou.aliyuncs.com";
+        return new com.aliyun.ocr_api20210707.Client(config);
     }
 
 }

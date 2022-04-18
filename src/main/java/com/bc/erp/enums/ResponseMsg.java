@@ -10,6 +10,9 @@ public enum ResponseMsg {
     /**
      * 接口返回信息
      */
+    SUCCESS("SUCCESS", "成功"),
+    ERROR("ERROR", "失败"),
+
     ADD_SUCCESS("ADD_SUCCESS", "新增成功"),
     ADD_ERROR("ADD_ERROR", "新增失败"),
 

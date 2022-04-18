@@ -1,5 +1,6 @@
 package com.bc.erp.utils;
 
+import com.bc.erp.entity.ocr.OcrLog;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -46,7 +47,6 @@ public class HttpUtil {
             // 发送get请求
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
-
             // 请求发送成功，并得到响应
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 // 读取服务器返回过来的json字符串数据
