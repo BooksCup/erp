@@ -21,13 +21,15 @@ public class RelatedCompany {
     private String legalPersonName;
     private String createId;
     private List<RelatedCompanyContact> relatedCompanyContactList;
+    private List<RelatedCompanyAccount> relatedCompanyAccountList;
 
     public RelatedCompany() {
 
     }
 
     public RelatedCompany(String enterpriseId, String name, String alias, String logo,
-                          String address, String legalPersonName, String createId, List<RelatedCompanyContact> relatedCompanyContactList) {
+                          String address, String legalPersonName, String createId,
+                          List<RelatedCompanyContact> relatedCompanyContactList, List<RelatedCompanyAccount> relatedCompanyAccountList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.name = name;
@@ -37,6 +39,7 @@ public class RelatedCompany {
         this.legalPersonName = legalPersonName;
         this.createId = createId;
         this.relatedCompanyContactList = relatedCompanyContactList;
+        this.relatedCompanyAccountList = relatedCompanyAccountList;
     }
 
     public String getId() {
@@ -117,6 +120,14 @@ public class RelatedCompany {
 
     public void setRelatedCompanyContactList(List<RelatedCompanyContact> relatedCompanyContactList) {
         this.relatedCompanyContactList = relatedCompanyContactList;
+    }
+
+    public List<RelatedCompanyAccount> getRelatedCompanyAccountList() {
+        return relatedCompanyAccountList;
+    }
+
+    public void setRelatedCompanyAccountList(List<RelatedCompanyAccount> relatedCompanyAccountList) {
+        this.relatedCompanyAccountList = relatedCompanyAccountList;
     }
 
 }

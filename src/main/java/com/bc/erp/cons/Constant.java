@@ -17,4 +17,7 @@ public class Constant {
      */
     public static final String WARE_HOUSE_ROOT_PARENT_ID = "0";
 
+    public static final String OCR_DYEING_COST_PATH_WINDOWS = "D://orc_dyeing_cost//";
+    public static final String OCR_DYEING_COST_PATH_LINUX = "/home/orc_dyeing_cost/";
+
 }

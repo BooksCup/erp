@@ -54,6 +54,8 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
     @Override
     public void addRelatedCompany(RelatedCompany relatedCompany) {
         relatedCompanyMapper.addRelatedCompany(relatedCompany);
+
+        // 联系人
         List<RelatedCompanyContact> relatedCompanyContactList = relatedCompany.getRelatedCompanyContactList();
         List<RelatedCompanyContact> addList = new ArrayList<>();
         List<RelatedCompanyContact> updateList = new ArrayList<>();
@@ -72,6 +74,26 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
         if (!CollectionUtils.isEmpty(updateList)) {
             relatedCompanyContactMapper.updateRelatedCompanyContactList(updateList);
         }
+
+//        // 账户
+//        List<RelatedCompanyContact> relatedCompanyContactList = relatedCompany.getRelatedCompanyContactList();
+//        List<RelatedCompanyContact> addList = new ArrayList<>();
+//        List<RelatedCompanyContact> updateList = new ArrayList<>();
+//        if (!CollectionUtils.isEmpty(relatedCompanyContactList)) {
+//            for (RelatedCompanyContact relatedCompanyContact : relatedCompanyContactList) {
+//                if (StringUtils.isEmpty(relatedCompany.getId())) {
+//                    addList.add(relatedCompanyContact);
+//                } else {
+//                    updateList.add(relatedCompanyContact);
+//                }
+//            }
+//        }
+//        if (!CollectionUtils.isEmpty(addList)) {
+//            relatedCompanyContactMapper.addRelatedCompanyContactList(addList);
+//        }
+//        if (!CollectionUtils.isEmpty(updateList)) {
+//            relatedCompanyContactMapper.updateRelatedCompanyContactList(updateList);
+//        }
 
     }
 

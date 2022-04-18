@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.bc.erp.mapper.RelatedCompanyContactMapper">
+<mapper namespace="com.bc.erp.mapper.RelatedCompanyAccountMapper">
 
-    <insert id="addRelatedCompanyContactList" parameterType="list">
-        INSERT INTO t_related_company_contact
+    <insert id="addRelatedCompanyAccountList" parameterType="list">
+        INSERT INTO t_related_company_account
         (
         id,
         enterprise_id,
         rc_id,
         name,
-        sex,
-        job,
-        phone,
-        email,
+        bank,
+        number,
+        currency,
+        remark,
         create_id,
         create_time
         )
@@ -23,28 +23,27 @@
             #{item.enterpriseId},
             #{item.rcId},
             #{item.name},
-            #{item.sex},
-            #{item.job},
-            #{item.phone},
-            #{item.email},
+            #{item.bank},
+            #{item.number},
+            #{item.currency},
+            #{item.remark},
             #{item.createId},
             now()
             )
         </foreach>
     </insert>
 
-    <update id="updateRelatedCompanyContactList" parameterType="list">
+    <update id="updateRelatedCompanyAccountList" parameterType="list">
         <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
-            UPDATE t_related_company_contact
+            UPDATE t_related_company_account
             SET
             name = #{name},
-            sex = #{sex},
-            job = #{job},
-            phone = #{phone},
-            email = #{email}
+            bank = #{bank},
+            number = #{number},
+            currency = #{currency},
+            remark = #{remark}
             where id = #{id}
         </foreach>
     </update>
-
 
 </mapper>

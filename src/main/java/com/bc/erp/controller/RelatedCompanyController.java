@@ -3,6 +3,7 @@ package com.bc.erp.controller;
 import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.RelatedCompany;
+import com.bc.erp.entity.RelatedCompanyAccount;
 import com.bc.erp.entity.RelatedCompanyContact;
 import com.bc.erp.enums.FlagEnum;
 import com.bc.erp.enums.ResponseMsg;
@@ -64,12 +65,14 @@ public class RelatedCompanyController {
             @RequestParam(required = false) String address,
             @RequestParam String legalPersonName,
             @RequestParam String createId,
-            @RequestParam String relatedCompanyContacts) {
+            @RequestParam String relatedCompanyContacts,
+            @RequestParam String relatedCompanyAccounts) {
         ResponseEntity<String> responseEntity;
         try {
             List<RelatedCompanyContact> relatedCompanyContactList = JsonUtil.jsonArrayToList(relatedCompanyContacts, RelatedCompanyContact.class);
+            List<RelatedCompanyAccount> relatedCompanyAccountList = JsonUtil.jsonArrayToList(relatedCompanyAccounts, RelatedCompanyAccount.class);
             RelatedCompany relatedCompany = new RelatedCompany(enterpriseId, name, alias, logo,
-                    address, legalPersonName, createId, relatedCompanyContactList);
+                    address, legalPersonName, createId, relatedCompanyContactList, relatedCompanyAccountList);
             relatedCompanyService.addRelatedCompany(relatedCompany);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
