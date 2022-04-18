@@ -8,6 +8,7 @@ import com.bc.erp.entity.ocr.PrismTablesInfo;
 import com.bc.erp.entity.ocr.Response;
 import com.bc.erp.utils.*;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.BorderStyle;
@@ -19,9 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -43,10 +44,16 @@ public class DyeingCostOcrController {
     @Value("${aliyun.access-secret}")
     private String accessSecret;
 
+    @Value("${aliyun.domain}")
+    private String domain;
+
+    @Resource
+    OssUtil ossUtil;
+
     @ApiOperation(value = "识别染费结算单并生成excel", notes = "识别染费结算单并生成excel")
     @GetMapping(value = "")
     public ResponseEntity<String> transfer2Excel(
-            @RequestParam String imgUrl) {
+            @RequestParam String imgUrl, HttpServletResponse response) {
         ResponseEntity<String> responseEntity;
         try {
             String signatureMethod = "HMAC-SHA1";
@@ -92,9 +99,9 @@ public class DyeingCostOcrController {
                     + "&Format=" + format + "&Version=" + version + "&SignatureVersion=" + signatureVersion
                     + "&SignatureMethod=" + signatureMethod + "&SignatureNonce=" + signatureNonce +
                     "&AccessKeyId=" + accessKeyId + "&Timestamp=" + timeStamp + "&Signature=" + signature;
-            String response = HttpUtil.doGet(url);
-            handleOcrResponse(response);
-            responseEntity = new ResponseEntity<>("", HttpStatus.OK);
+            String ocrResponse = HttpUtil.doGet(url);
+            String fileName = handleOcrResponse(ocrResponse);
+            responseEntity = new ResponseEntity<>(fileName, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>("", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -117,11 +124,12 @@ public class DyeingCostOcrController {
     }
 
     /**
-     * 处理ocr识别结果
+     * 处理ocr识别结果生成excel并上传至oss
      *
      * @param content ocr识别结果
+     * @return 完整的oss文件路径
      */
-    public void handleOcrResponse(String content) throws Exception {
+    public String handleOcrResponse(String content) throws Exception {
         Response response = JSON.parseObject(content, Response.class);
         String data = response.getData();
         OcrResponse ocrResponse = JSON.parseObject(data, OcrResponse.class);
@@ -140,9 +148,15 @@ public class DyeingCostOcrController {
         }
         File file = new File(filePath);
 
-        FileOutputStream fout = new FileOutputStream(file);
-        workbook.write(fout);
-        fout.close();
+        FileOutputStream out = new FileOutputStream(file);
+        workbook.write(out);
+        out.close();
+        // 上传到oss
+        String result = ossUtil.uploadFile(getBytesByFile(filePath), fileName);
+        if (StringUtils.isNotEmpty(result)) {
+            fileName = domain + fileName;
+        }
+        return fileName;
     }
 
     private void createInspectInfo(HSSFWorkbook workbook, HSSFSheet sheet, PrismTablesInfo tablesInfo) {
@@ -196,6 +210,26 @@ public class DyeingCostOcrController {
         style.setBorderTop(BorderStyle.THIN);
         // 下边框
         style.setBorderBottom(BorderStyle.THIN);
+    }
+
+    public static byte[] getBytesByFile(String pathStr) {
+        File file = new File(pathStr);
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            byte[] data = bos.toByteArray();
+            bos.close();
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
