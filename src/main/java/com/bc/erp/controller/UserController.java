@@ -42,6 +42,10 @@ public class UserController {
             if (CollectionUtils.isEmpty(userList)) {
                 responseEntity = new ResponseEntity<>(new User(), HttpStatus.BAD_REQUEST);
             } else {
+                User user = userList.get(0);
+                paramMap.clear();
+                paramMap.put("userId", user.getId());
+                userService.updateLastLoginTime(paramMap);
                 responseEntity = new ResponseEntity<>(userList.get(0), HttpStatus.OK);
             }
         } catch (Exception e) {

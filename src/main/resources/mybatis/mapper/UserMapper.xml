@@ -39,4 +39,11 @@
         </if>
     </select>
 
+    <update id="updateLastLoginTime" parameterType="map">
+        UPDATE t_user
+        SET
+        last_login_time = now()
+        where id = #{userId}
+    </update>
+
 </mapper>

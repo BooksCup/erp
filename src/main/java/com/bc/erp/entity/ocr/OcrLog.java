@@ -15,16 +15,18 @@ public class OcrLog {
     private String status;
     private Long cost;
     private String resultUrl;
+    private String createId;
     private String createTime;
 
     public OcrLog() {
 
     }
 
-    public OcrLog(String moduleType, String paramUrl) {
+    public OcrLog(String moduleType, String paramUrl, String createId) {
         this.id = CommonUtil.generateId();
         this.moduleType = moduleType;
         this.paramUrl = paramUrl;
+        this.createId = createId;
     }
 
     public String getId() {
@@ -73,6 +75,14 @@ public class OcrLog {
 
     public void setResultUrl(String resultUrl) {
         this.resultUrl = resultUrl;
+    }
+
+    public String getCreateId() {
+        return createId;
+    }
+
+    public void setCreateId(String createId) {
+        this.createId = createId;
     }
 
     public String getCreateTime() {

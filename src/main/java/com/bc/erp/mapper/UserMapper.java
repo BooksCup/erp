@@ -28,4 +28,11 @@ public interface UserMapper {
      */
     List<User> searchUser(Map<String, Object> paramMap);
 
+    /**
+     * 更新最后一次登录时间
+     *
+     * @param paramMap 参数map
+     */
+    void updateLastLoginTime(Map<String, Object> paramMap);
+
 }

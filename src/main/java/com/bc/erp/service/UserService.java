@@ -31,4 +31,11 @@ public interface UserService {
      */
     PageInfo<User> searchUser(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
 
+    /**
+     * 更新最后一次登录时间
+     *
+     * @param paramMap 参数map
+     */
+    void updateLastLoginTime(Map<String, Object> paramMap);
+
 }

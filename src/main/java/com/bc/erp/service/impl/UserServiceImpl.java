@@ -48,4 +48,14 @@ public class UserServiceImpl implements UserService {
         return new PageInfo<>(userList);
     }
 
+    /**
+     * 更新最后一次登录时间
+     *
+     * @param paramMap 参数map
+     */
+    @Override
+    public void updateLastLoginTime(Map<String, Object> paramMap) {
+        userMapper.updateLastLoginTime(paramMap);
+    }
+
 }

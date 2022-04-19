@@ -55,11 +55,12 @@ public class DyeingCostOcrController {
     @ApiOperation(value = "识别染费结算单并生成excel", notes = "识别染费结算单并生成excel")
     @GetMapping(value = "")
     public ResponseEntity<String> transfer2Excel(
-            @RequestParam String imgUrl) {
+            @RequestParam String imgUrl,
+            @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         long beginTimeStamp = System.currentTimeMillis();
         try {
-            OcrLog ocrLog = new OcrLog(OcrModuleTypeEnum.DYEING_COST.getCode(), imgUrl);
+            OcrLog ocrLog = new OcrLog(OcrModuleTypeEnum.DYEING_COST.getCode(), imgUrl, createId);
             com.aliyun.ocr_api20210707.Client client = createClient(accessKeyId, accessSecret);
             RecognizeTableOcrRequest recognizeTableOcrRequest = new RecognizeTableOcrRequest();
             recognizeTableOcrRequest.setUrl(imgUrl);
