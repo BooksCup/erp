@@ -18,11 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.BASE64Encoder;
 
 import javax.annotation.Resource;
 import java.io.*;
-import java.net.URLEncoder;
 import java.util.*;
 
 import com.aliyun.ocr_api20210707.models.*;
@@ -98,7 +96,7 @@ public class DyeingCostOcrController {
 
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("sheet");
-        createInspectInfo(workbook, sheet, tablesInfo);
+        writeExcelContent(workbook, sheet, tablesInfo);
         String fileName = CommonUtil.generateId() + ".xls";
         String filePath;
         if (OsUtil.WINDOWS) {
@@ -119,7 +117,7 @@ public class DyeingCostOcrController {
         return fileName;
     }
 
-    private void createInspectInfo(HSSFWorkbook workbook, HSSFSheet sheet, PrismTablesInfo tablesInfo) {
+    private void writeExcelContent(HSSFWorkbook workbook, HSSFSheet sheet, PrismTablesInfo tablesInfo) {
         int[] columnWidths = new int[]{10, 20, 30, 15, 10, 10, 10, 10, 10, 10, 15, 20};
         int columnIndex = 0;
         for (int columnWidth : columnWidths) {
