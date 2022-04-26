@@ -2,7 +2,9 @@ package com.bc.erp.service.impl;
 
 import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.RelatedCompany;
+import com.bc.erp.entity.RelatedCompanyAccount;
 import com.bc.erp.entity.RelatedCompanyContact;
+import com.bc.erp.mapper.RelatedCompanyAccountMapper;
 import com.bc.erp.mapper.RelatedCompanyContactMapper;
 import com.bc.erp.mapper.RelatedCompanyMapper;
 import com.bc.erp.service.RelatedCompanyService;
@@ -31,6 +33,9 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
     @Resource
     RelatedCompanyContactMapper relatedCompanyContactMapper;
 
+    @Resource
+    RelatedCompanyAccountMapper relatedCompanyAccountMapper;
+
     /**
      * 获取往来单位分页信息
      *
@@ -56,44 +61,44 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
         relatedCompanyMapper.addRelatedCompany(relatedCompany);
 
         // 联系人
-        List<RelatedCompanyContact> relatedCompanyContactList = relatedCompany.getRelatedCompanyContactList();
-        List<RelatedCompanyContact> addList = new ArrayList<>();
-        List<RelatedCompanyContact> updateList = new ArrayList<>();
-        if (!CollectionUtils.isEmpty(relatedCompanyContactList)) {
-            for (RelatedCompanyContact relatedCompanyContact : relatedCompanyContactList) {
-                if (StringUtils.isEmpty(relatedCompany.getId())) {
-                    addList.add(relatedCompanyContact);
+        List<RelatedCompanyContact> contactList = relatedCompany.getRelatedCompanyContactList();
+        List<RelatedCompanyContact> addContactList = new ArrayList<>();
+        List<RelatedCompanyContact> updateContactList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(contactList)) {
+            for (RelatedCompanyContact contact : contactList) {
+                if (StringUtils.isEmpty(contact.getId())) {
+                    addContactList.add(contact);
                 } else {
-                    updateList.add(relatedCompanyContact);
+                    updateContactList.add(contact);
                 }
             }
         }
-        if (!CollectionUtils.isEmpty(addList)) {
-            relatedCompanyContactMapper.addRelatedCompanyContactList(addList);
+        if (!CollectionUtils.isEmpty(addContactList)) {
+            relatedCompanyContactMapper.addRelatedCompanyContactList(addContactList);
         }
-        if (!CollectionUtils.isEmpty(updateList)) {
-            relatedCompanyContactMapper.updateRelatedCompanyContactList(updateList);
+        if (!CollectionUtils.isEmpty(updateContactList)) {
+            relatedCompanyContactMapper.updateRelatedCompanyContactList(updateContactList);
         }
 
-//        // 账户
-//        List<RelatedCompanyContact> relatedCompanyContactList = relatedCompany.getRelatedCompanyContactList();
-//        List<RelatedCompanyContact> addList = new ArrayList<>();
-//        List<RelatedCompanyContact> updateList = new ArrayList<>();
-//        if (!CollectionUtils.isEmpty(relatedCompanyContactList)) {
-//            for (RelatedCompanyContact relatedCompanyContact : relatedCompanyContactList) {
-//                if (StringUtils.isEmpty(relatedCompany.getId())) {
-//                    addList.add(relatedCompanyContact);
-//                } else {
-//                    updateList.add(relatedCompanyContact);
-//                }
-//            }
-//        }
-//        if (!CollectionUtils.isEmpty(addList)) {
-//            relatedCompanyContactMapper.addRelatedCompanyContactList(addList);
-//        }
-//        if (!CollectionUtils.isEmpty(updateList)) {
-//            relatedCompanyContactMapper.updateRelatedCompanyContactList(updateList);
-//        }
+        // 账户
+        List<RelatedCompanyAccount> accountList = relatedCompany.getRelatedCompanyAccountList();
+        List<RelatedCompanyAccount> addAccountList = new ArrayList<>();
+        List<RelatedCompanyAccount> updateAccountList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(accountList)) {
+            for (RelatedCompanyAccount account : accountList) {
+                if (StringUtils.isEmpty(relatedCompany.getId())) {
+                    addAccountList.add(account);
+                } else {
+                    updateAccountList.add(account);
+                }
+            }
+        }
+        if (!CollectionUtils.isEmpty(addAccountList)) {
+            relatedCompanyAccountMapper.addRelatedCompanyAccountList(addAccountList);
+        }
+        if (!CollectionUtils.isEmpty(updateAccountList)) {
+            relatedCompanyAccountMapper.updateRelatedCompanyAccountList(updateAccountList);
+        }
 
     }
 

@@ -1,7 +1,6 @@
 package com.bc.erp.mapper;
 
 import com.bc.erp.entity.RelatedCompanyAccount;
-import com.bc.erp.entity.RelatedCompanyContact;
 
 import java.util.List;
 
