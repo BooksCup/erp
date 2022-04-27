@@ -31,4 +31,33 @@
         )
     </insert>
 
+    <insert id="addStockInDetailList" parameterType="list">
+        INSERT INTO t_stock_in_detail
+        (
+        id,
+        enterprise_id,
+        stock_in_id,
+        package_id,
+        goods_id,
+        spec_id,
+        num,
+        price,
+        create_time
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.enterpriseId},
+            #{item.stockInId},
+            #{item.packageId},
+            #{item.goodsId},
+            #{item.specId},
+            #{item.num},
+            #{item.price},
+            now()
+            )
+        </foreach>
+    </insert>
+
 </mapper>

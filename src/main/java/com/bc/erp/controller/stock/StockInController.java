@@ -1,14 +1,18 @@
 package com.bc.erp.controller.stock;
 
 import com.bc.erp.entity.stock.StockIn;
+import com.bc.erp.entity.stock.StockInDetail;
 import com.bc.erp.enums.ResponseMsg;
 import com.bc.erp.service.StockInService;
+import com.bc.erp.utils.JsonUtil;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.util.JSONUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 入库单
@@ -33,11 +37,13 @@ public class StockInController {
             @RequestParam(required = false) String relatedCompanyId,
             @RequestParam(required = false) String remark,
             @RequestParam(required = false) String photos,
+            @RequestParam String stockInDetails,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         try {
+            List<StockInDetail> stockInDetailList = JsonUtil.jsonArrayToList(stockInDetails, StockInDetail.class);
             StockIn stockIn = new StockIn(enterpriseId, wareHouseId, type, relatedCompanyId,
-                    remark, photos, entryDate, createId);
+                    remark, photos, entryDate, createId, stockInDetailList);
             stockInService.addStockIn(stockIn);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
@@ -46,6 +52,5 @@ public class StockInController {
         }
         return responseEntity;
     }
-
 
 }

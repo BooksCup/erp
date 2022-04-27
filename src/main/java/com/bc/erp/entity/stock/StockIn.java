@@ -2,6 +2,8 @@ package com.bc.erp.entity.stock;
 
 import com.bc.erp.utils.CommonUtil;
 
+import java.util.List;
+
 /**
  * 入库单
  *
@@ -19,13 +21,14 @@ public class StockIn {
     private String entryDate;
     private String createId;
     private String createTime;
+    private List<StockInDetail> stockInDetailList;
 
     public StockIn() {
 
     }
 
     public StockIn(String enterpriseId, String wareHouseId, String type, String relatedCompanyId,
-                   String remark, String photos, String entryDate, String createId) {
+                   String remark, String photos, String entryDate, String createId, List<StockInDetail> stockInDetailList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.wareHouseId = wareHouseId;
@@ -35,6 +38,7 @@ public class StockIn {
         this.photos = photos;
         this.entryDate = entryDate;
         this.createId = createId;
+        this.stockInDetailList = stockInDetailList;
     }
 
     public String getId() {
@@ -115,6 +119,14 @@ public class StockIn {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public List<StockInDetail> getStockInDetailList() {
+        return stockInDetailList;
+    }
+
+    public void setStockInDetailList(List<StockInDetail> stockInDetailList) {
+        this.stockInDetailList = stockInDetailList;
     }
 
 }
