@@ -30,7 +30,7 @@ public class ProjectController {
 
     @ApiOperation(value = "新增项目", notes = "新增项目")
     @PostMapping(value = "")
-    public ResponseEntity<String> addGoods(
+    public ResponseEntity<String> addProject(
             @RequestParam String enterpriseId,
             @RequestParam String name,
             @RequestParam String createId) {
@@ -48,7 +48,7 @@ public class ProjectController {
 
     @ApiOperation(value = "获取项目分页信息", notes = "获取项目分页信息")
     @GetMapping(value = "/pageInfo")
-    public ResponseEntity<PageInfo<Project>> getGoodsPageInfo(
+    public ResponseEntity<PageInfo<Project>> getProjectPageInfo(
             @RequestParam String enterpriseId,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false, defaultValue = "1") Integer pageNum,
