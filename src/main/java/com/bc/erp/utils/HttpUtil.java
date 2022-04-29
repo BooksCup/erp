@@ -25,6 +25,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static java.util.regex.Pattern.compile;
 
 /**
  * HttpClient工具类
@@ -183,5 +187,23 @@ public class HttpUtil {
         }
         return null;
     }
+
+    public static String getParamByUrl(String url, String name) {
+        url += "&";
+        String pattern = "(\\?|&){1}#{0,1}" + name + "=[a-zA-Z0-9]*(&{1})";
+        Pattern r = compile(pattern);
+        Matcher matcher = r.matcher(url);
+        if (matcher.find()) {
+            return matcher.group(0).split("=")[1].replace("&", "");
+        } else {
+            return "";
+        }
+    }
+
+//    public static void main(String[] args) {
+//        String url = "http://172.168.0.145:8096/swagger-ui?type=1&serviceId=4bebda03a139479e968f50811a4c7465";
+//        System.out.println(getParamByUrl(url, "type"));
+//        System.out.println(getParamByUrl(url, "serviceId"));
+//    }
 
 }
