@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.ProjectMapper">
+
+    <resultMap id="project" type="com.bc.erp.entity.Project">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addProject" parameterType="com.bc.erp.entity.Project">
+        INSERT INTO t_project
+        (
+        id,
+        enterprise_id,
+        name,
+        create_id,
+        create_time,
+        modify_time
+        )
+        VALUES
+        (
+        #{id},
+        #{enterpriseId},
+        #{name},
+        #{createId},
+        now(),
+        now()
+        )
+    </insert>
+
+    <select id="getProjectList" resultMap="project">
+        SELECT *
+        FROM t_project
+        WHERE enterprise_id = #{enterpriseId}
+        <if test="keyword != null and keyword != ''">
+            AND name LIKE CONCAT('%', #{keyword},'%')
+        </if>
+        ORDER BY modify_time DESC
+    </select>
+
+</mapper>
