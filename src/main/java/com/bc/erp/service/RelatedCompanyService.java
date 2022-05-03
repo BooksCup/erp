@@ -3,6 +3,7 @@ package com.bc.erp.service;
 import com.bc.erp.entity.RelatedCompany;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +12,14 @@ import java.util.Map;
  * @author zhou
  */
 public interface RelatedCompanyService {
+
+    /**
+     * 获取往来单位列表
+     *
+     * @param paramMap 参数map
+     * @return 往来单位列表
+     */
+    List<RelatedCompany> getRelatedCompanyList(Map<String, Object> paramMap);
 
     /**
      * 获取往来单位分页信息

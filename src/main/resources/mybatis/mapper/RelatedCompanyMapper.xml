@@ -11,6 +11,22 @@
         <result column="address" property="address" jdbcType="VARCHAR"/>
         <result column="legal_person_name" property="legalPersonName" jdbcType="DECIMAL"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
+        <collection property="relatedCompanyContactList"
+                    javaType="list"
+                    ofType="com.bc.erp.entity.RelatedCompanyContact"
+                    select="getRcContactListByRcId"
+                    column="id"/>
+    </resultMap>
+
+    <resultMap id="relatedCompanyContact" type="com.bc.erp.entity.RelatedCompanyContact">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
+        <result column="rc_id" property="rcId" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="job" property="job" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="addRelatedCompany" parameterType="com.bc.erp.entity.RelatedCompany">
@@ -49,6 +65,13 @@
             AND CONCAT(name, alias) LIKE CONCAT('%', #{keyword},'%')
         </if>
         ORDER BY modify_time DESC
+    </select>
+
+    <select id="getRcContactListByRcId" resultMap="relatedCompanyContact">
+        SELECT *
+        FROM t_related_company_contact
+        WHERE rc_id = #{id}
+        ORDER BY create_time DESC
     </select>
 
 </mapper>

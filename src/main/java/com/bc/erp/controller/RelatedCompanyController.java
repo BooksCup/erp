@@ -1,7 +1,6 @@
 package com.bc.erp.controller;
 
 import com.bc.erp.cons.Constant;
-import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.RelatedCompany;
 import com.bc.erp.entity.RelatedCompanyAccount;
 import com.bc.erp.entity.RelatedCompanyContact;
@@ -16,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +51,26 @@ public class RelatedCompanyController {
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>(new PageInfo<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "获取往来单位列表", notes = "获取往来单位列表")
+    @GetMapping(value = "")
+    public ResponseEntity<List<RelatedCompany>> getRelatedCompanyList(
+            @RequestParam String enterpriseId,
+            @RequestParam(required = false) String keyword) {
+        ResponseEntity<List<RelatedCompany>> responseEntity;
+        try {
+            Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("enterpriseId", enterpriseId);
+            paramMap.put("deleteStatus", FlagEnum.FALSE.getCode());
+            paramMap.put("keyword", keyword);
+            List<RelatedCompany> relatedCompanyList = relatedCompanyService.getRelatedCompanyList(paramMap);
+            responseEntity = new ResponseEntity<>(relatedCompanyList, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

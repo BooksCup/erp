@@ -1,6 +1,5 @@
 package com.bc.erp.service.impl;
 
-import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.RelatedCompany;
 import com.bc.erp.entity.RelatedCompanyAccount;
 import com.bc.erp.entity.RelatedCompanyContact;
@@ -37,6 +36,17 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
 
     @Resource
     RelatedCompanyAccountMapper relatedCompanyAccountMapper;
+
+    /**
+     * 获取往来单位列表
+     *
+     * @param paramMap 参数map
+     * @return 往来单位列表
+     */
+    @Override
+    public List<RelatedCompany> getRelatedCompanyList(Map<String, Object> paramMap) {
+        return relatedCompanyMapper.getRelatedCompanyList(paramMap);
+    }
 
     /**
      * 获取往来单位分页信息
