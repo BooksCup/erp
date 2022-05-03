@@ -30,18 +30,18 @@ public class ProjectController {
 
     @ApiOperation(value = "新增项目", notes = "新增项目")
     @PostMapping(value = "")
-    public ResponseEntity<String> addProject(
+    public ResponseEntity<Project> addProject(
             @RequestParam String enterpriseId,
             @RequestParam String name,
             @RequestParam String createId) {
-        ResponseEntity<String> responseEntity;
+        ResponseEntity<Project> responseEntity;
         try {
             Project project = new Project(enterpriseId, name, createId);
             projectService.addProject(project);
-            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(project, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(new Project(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

@@ -16,4 +16,12 @@ public interface OrderMapper {
      */
     void addOrder(Order order);
 
+    /**
+     * 根据订单ID获取订单信息
+     *
+     * @param id 订单ID
+     * @return 订单信息
+     */
+    Order getOrderById(String id);
+
 }

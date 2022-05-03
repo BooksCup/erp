@@ -24,6 +24,8 @@ public enum ResponseMsg {
 
     HANDLE_SUCCESS("HANDLE_SUCCESS", "处理成功"),
     HANDLE_ERROR("HANDLE_ERROR", "处理失败"),
+
+    ALREADY_EXISTS("ALREADY_EXISTS", "已存在"),
     ;
 
     ResponseMsg(String code, String message) {

@@ -2,6 +2,8 @@ package com.bc.erp.entity.order;
 
 import com.bc.erp.utils.CommonUtil;
 
+import java.util.List;
+
 /**
  * 订单
  *
@@ -19,13 +21,14 @@ public class Order {
     private String goodsId;
     private String createId;
     private String createTime;
+    private List<OrderMaterial> orderMaterialList;
 
     public Order() {
 
     }
 
     public Order(String enterpriseId, String type, String rcId, String rcContactId,
-                 String po, String goodsId, String createId) {
+                 String po, String goodsId, String createId, List<OrderMaterial> orderMaterialList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.type = type;
@@ -34,6 +37,7 @@ public class Order {
         this.po = po;
         this.goodsId = goodsId;
         this.createId = createId;
+        this.orderMaterialList = orderMaterialList;
     }
 
     public String getId() {
@@ -114,6 +118,14 @@ public class Order {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public List<OrderMaterial> getOrderMaterialList() {
+        return orderMaterialList;
+    }
+
+    public void setOrderMaterialList(List<OrderMaterial> orderMaterialList) {
+        this.orderMaterialList = orderMaterialList;
     }
 
 }

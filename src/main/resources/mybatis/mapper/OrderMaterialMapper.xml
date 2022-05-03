@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.OrderMaterialMapper">
+
+    <insert id="addOrderMaterialList" parameterType="list">
+        insert into t_order_material
+        (
+        id,
+        order_id,
+        goods_id,
+        position,
+        currency,
+        create_id,
+        create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.orderId},
+            #{item.goodsId},
+            #{item.position},
+            #{item.currency},
+            #{item.createId},
+            now()
+            )
+        </foreach>
+    </insert>
+
+</mapper>

@@ -12,6 +12,19 @@
         <result column="stock_num" property="stockNum" jdbcType="DECIMAL"/>
         <result column="unit" property="unit" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <collection property="goodsSpecList"
+                    javaType="list"
+                    ofType="com.bc.erp.entity.GoodsSpec"
+                    select="getGoodsSpecListByGoodsId"
+                    column="id"/>
+    </resultMap>
+
+    <resultMap id="goodsSpec" type="com.bc.erp.entity.GoodsSpec">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
+        <result column="x" property="x" jdbcType="VARCHAR"/>
+        <result column="y" property="y" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="DECIMAL"/>
     </resultMap>
 
     <insert id="addGoods" parameterType="com.bc.erp.entity.Goods">
@@ -62,6 +75,13 @@
         FROM t_goods g
         LEFT JOIN t_goods_type gt ON g.type = gt.id
         WHERE g.id = #{goodsId}
+    </select>
+
+    <select id="getGoodsSpecListByGoodsId" resultMap="goodsSpec">
+        SELECT *
+        FROM t_goods_spec
+        WHERE goods_id = #{goodsId}
+        ORDER BY sort ASC
     </select>
 
 </mapper>
