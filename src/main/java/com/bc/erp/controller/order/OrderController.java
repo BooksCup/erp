@@ -3,6 +3,7 @@ package com.bc.erp.controller.order;
 import com.bc.erp.entity.order.Order;
 import com.bc.erp.enums.ResponseMsg;
 import com.bc.erp.service.OrderService;
+import com.bc.erp.utils.OrderUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,9 @@ public class OrderController {
     @Resource
     OrderService orderService;
 
+    @Resource
+    OrderUtil orderUtil;
+
     @ApiOperation(value = "新增订单", notes = "新增订单")
     @PostMapping(value = "")
     public ResponseEntity<String> addOrder(
@@ -36,6 +40,8 @@ public class OrderController {
         ResponseEntity<String> responseEntity;
         try {
             Order order = new Order(enterpriseId, type, rcId, rcContactId, po, goodsId, createId);
+            String orderNo = orderUtil.getOrderNo(order);
+            order.setNo(orderNo);
             orderService.addOrder(order);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {

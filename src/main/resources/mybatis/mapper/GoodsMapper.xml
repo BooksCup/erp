@@ -11,6 +11,7 @@
         <result column="spec_y" property="specY" jdbcType="VARCHAR"/>
         <result column="stock_num" property="stockNum" jdbcType="DECIMAL"/>
         <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="addGoods" parameterType="com.bc.erp.entity.Goods">
@@ -56,9 +57,11 @@
     </select>
 
     <select id="getGoodsById" resultMap="goods" parameterType="String">
-        SELECT *
-        FROM t_goods
-        WHERE id = #{goodsId}
+        SELECT g.*,
+        gt.name AS type_name
+        FROM t_goods g
+        LEFT JOIN t_goods_type gt ON g.type = gt.id
+        WHERE g.id = #{goodsId}
     </select>
 
 </mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.SnMapper">
+
+    <resultMap id="sn" type="com.bc.erp.entity.Sn">
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="sn" property="sn" jdbcType="INTEGER"/>
+        <result column="month" property="month" jdbcType="INTEGER"/>
+        <result column="modify_time" property="modifyTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addSn" parameterType="com.bc.erp.entity.Sn">
+        INSERT INTO t_sn
+        (
+        code,
+        sn,
+        month,
+        modify_time
+        )
+        VALUES
+        (
+        #{code},
+        #{sn},
+        #{month},
+        #{modifyTime}
+        )
+    </insert>
+
+    <select id="getSn" resultMap="sn">
+        SELECT *
+        FROM t_sn
+        WHERE code = #{code}
+    </select>
+
+    <update id="updateSn" parameterType="com.bc.erp.entity.Sn">
+        UPDATE t_sn
+        SET sn = #{sn},
+        month = #{month},
+        modify_time = #{modifyTime}
+        WHERE code = #{code}
+    </update>
+
+</mapper>

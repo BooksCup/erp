@@ -1,5 +1,6 @@
 package com.bc.erp.utils;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -28,6 +29,18 @@ public class CommonUtil {
     public static String now() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
+    }
+
+    /**
+     * 数字前面自动补零
+     * @param number 数字
+     * @return
+     */
+    public static String geFourNumber(int number){
+        NumberFormat formatter = NumberFormat.getNumberInstance();
+        formatter.setMinimumIntegerDigits(2);
+        formatter.setGroupingUsed(false);
+        return formatter.format(number);
     }
 
     public static void main(String[] args){

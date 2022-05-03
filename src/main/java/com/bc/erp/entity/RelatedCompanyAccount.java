@@ -8,6 +8,8 @@ package com.bc.erp.entity;
 public class RelatedCompanyAccount {
 
     private String id;
+    private String enterpriseId;
+    private String rcId;
     private String name;
     private String bank;
     private String number;
@@ -22,6 +24,22 @@ public class RelatedCompanyAccount {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
+    }
+
+    public String getRcId() {
+        return rcId;
+    }
+
+    public void setRcId(String rcId) {
+        this.rcId = rcId;
     }
 
     public String getName() {

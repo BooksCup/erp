@@ -8,9 +8,11 @@ import com.bc.erp.mapper.RelatedCompanyAccountMapper;
 import com.bc.erp.mapper.RelatedCompanyContactMapper;
 import com.bc.erp.mapper.RelatedCompanyMapper;
 import com.bc.erp.service.RelatedCompanyService;
+import com.bc.erp.utils.CommonUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -57,7 +59,40 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
      * @param relatedCompany 往来单位
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void addRelatedCompany(RelatedCompany relatedCompany) {
+        relatedCompanyMapper.addRelatedCompany(relatedCompany);
+
+        // 联系人
+        List<RelatedCompanyContact> contactList = relatedCompany.getRelatedCompanyContactList();
+        for (RelatedCompanyContact contact : contactList) {
+            contact.setId(CommonUtil.generateId());
+            contact.setEnterpriseId(relatedCompany.getEnterpriseId());
+            contact.setRcId(relatedCompany.getId());
+            contact.setCreateId(relatedCompany.getCreateId());
+        }
+        relatedCompanyContactMapper.addRelatedCompanyContactList(contactList);
+
+        // 账户
+        List<RelatedCompanyAccount> accountList = relatedCompany.getRelatedCompanyAccountList();
+        for (RelatedCompanyAccount account : accountList) {
+            account.setId(CommonUtil.generateId());
+            account.setEnterpriseId(relatedCompany.getEnterpriseId());
+            account.setRcId(relatedCompany.getId());
+            account.setCreateId(relatedCompany.getCreateId());
+        }
+        relatedCompanyAccountMapper.addRelatedCompanyAccountList(accountList);
+
+    }
+
+    /**
+     * 新增往来单位
+     *
+     * @param relatedCompany 往来单位
+     */
+//    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRelatedCompany(RelatedCompany relatedCompany) {
         relatedCompanyMapper.addRelatedCompany(relatedCompany);
 
         // 联系人
@@ -67,6 +102,8 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
         if (!CollectionUtils.isEmpty(contactList)) {
             for (RelatedCompanyContact contact : contactList) {
                 if (StringUtils.isEmpty(contact.getId())) {
+                    contact.setId(CommonUtil.generateId());
+                    contact.setEnterpriseId(relatedCompany.getEnterpriseId());
                     addContactList.add(contact);
                 } else {
                     updateContactList.add(contact);
@@ -86,7 +123,9 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
         List<RelatedCompanyAccount> updateAccountList = new ArrayList<>();
         if (!CollectionUtils.isEmpty(accountList)) {
             for (RelatedCompanyAccount account : accountList) {
-                if (StringUtils.isEmpty(relatedCompany.getId())) {
+                if (StringUtils.isEmpty(account.getId())) {
+                    account.setId(CommonUtil.generateId());
+                    account.setEnterpriseId(CommonUtil.generateId());
                     addAccountList.add(account);
                 } else {
                     updateAccountList.add(account);
