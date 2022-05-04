@@ -37,7 +37,7 @@ public class GoodsController {
     public ResponseEntity<String> addGoods(
             @RequestParam String enterpriseId,
             @RequestParam String name,
-            @RequestParam String type,
+            @RequestParam String typeId,
             @RequestParam String attrs,
             @RequestParam String specX,
             @RequestParam(required = false) String specY,
@@ -49,7 +49,7 @@ public class GoodsController {
         try {
             List<GoodsAttr> goodsAttrList = JsonUtil.jsonArrayToList(attrs, GoodsAttr.class);
             List<GoodsSpec> goodsSpecList = JsonUtil.jsonArrayToList(specs, GoodsSpec.class);
-            Goods goods = new Goods(enterpriseId, name, photos, type, specX, specY, createId, unit, goodsAttrList, goodsSpecList);
+            Goods goods = new Goods(enterpriseId, name, photos, typeId, specX, specY, createId, unit, goodsAttrList, goodsSpecList);
             goodsService.addGoods(goods);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {

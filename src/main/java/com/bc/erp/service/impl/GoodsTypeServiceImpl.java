@@ -6,6 +6,8 @@ import com.bc.erp.service.GoodsTypeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 物品类型
@@ -26,6 +28,17 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
     @Override
     public void addGoodsType(GoodsType goodsType) {
         goodsTypeMapper.addGoodsType(goodsType);
+    }
+
+    /**
+     * 获取物品类型列表
+     *
+     * @param paramMap 参数map
+     * @return 物品类型列表
+     */
+    @Override
+    public List<GoodsType> getGoodsTypeList(Map<String, Object> paramMap) {
+        return goodsTypeMapper.getGoodsTypeList(paramMap);
     }
 
 }

@@ -2,6 +2,8 @@ package com.bc.erp.mapper;
 
 import com.bc.erp.entity.Sn;
 
+import java.util.Map;
+
 /**
  * 序列号
  *
@@ -12,10 +14,10 @@ public interface SnMapper {
     /**
      * 获取序列号
      *
-     * @param code 模块编码
+     * @param paramMap 参数map(包含规则和模块编码)
      * @return 序列号
      */
-    Sn getSn(String code);
+    Sn getSn(Map<String, Object> paramMap);
 
     /**
      * 新增序列号

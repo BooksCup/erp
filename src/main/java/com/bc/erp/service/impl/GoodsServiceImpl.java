@@ -1,12 +1,16 @@
 package com.bc.erp.service.impl;
 
+import com.bc.erp.entity.EnterpriseBr;
 import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.GoodsAttr;
 import com.bc.erp.entity.GoodsSpec;
+import com.bc.erp.enums.BrEnum;
+import com.bc.erp.mapper.EnterpriseBrMapper;
 import com.bc.erp.mapper.GoodsAttrMapper;
 import com.bc.erp.mapper.GoodsMapper;
 import com.bc.erp.mapper.GoodsSpecMapper;
 import com.bc.erp.service.GoodsService;
+import com.bc.erp.service.br.GoodsNoBrHandlerFactory;
 import com.bc.erp.utils.CommonUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -35,6 +39,12 @@ public class GoodsServiceImpl implements GoodsService {
     @Resource
     GoodsSpecMapper goodsSpecMapper;
 
+    @Resource
+    GoodsNoBrHandlerFactory goodsNoBrHandlerFactory;
+
+    @Resource
+    EnterpriseBrMapper enterpriseBrMapper;
+
     /**
      * 新增物品
      *
@@ -43,7 +53,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void addGoods(Goods goods) {
-
+        EnterpriseBr enterpriseBr = enterpriseBrMapper.getEnterpriseBr(goods.getEnterpriseId());
+        String goodsNo = goodsNoBrHandlerFactory.
+                getGoodsNoBrHandler(enterpriseBr == null ? "" : enterpriseBr.getGoodsNoRule()).getGoodsNo(goods);
+        goods.setNo(goodsNo);
         goodsMapper.addGoods(goods);
 
         // 物品属性

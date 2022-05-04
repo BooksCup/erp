@@ -44,7 +44,7 @@ public class CommonUtil {
     }
 
     public static void main(String[] args){
-        String url = "http://ocr-api.cn-hangzhou.aliyuncs.com/?Action=xx&Parameters";
+        System.out.println(generateId());
     }
 
 }

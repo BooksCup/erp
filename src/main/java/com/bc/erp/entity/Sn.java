@@ -7,20 +7,28 @@ package com.bc.erp.entity;
  */
 public class Sn {
 
+    private String rule;
     private String code;
     private Integer sn;
-    private Integer month;
     private String modifyTime;
 
     public Sn() {
 
     }
 
-    public Sn(String code, Integer month, Integer sn, String modifyTime) {
+    public Sn(String rule, String code, Integer sn, String modifyTime) {
+        this.rule = rule;
         this.code = code;
-        this.month = month;
         this.sn = sn;
         this.modifyTime = modifyTime;
+    }
+
+    public String getRule() {
+        return rule;
+    }
+
+    public void setRule(String rule) {
+        this.rule = rule;
     }
 
     public String getCode() {
@@ -29,14 +37,6 @@ public class Sn {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Integer getMonth() {
-        return month;
-    }
-
-    public void setMonth(Integer month) {
-        this.month = month;
     }
 
     public Integer getSn() {

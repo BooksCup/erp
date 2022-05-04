@@ -17,13 +17,14 @@ public class Goods {
     private String no;
     private String name;
     private String photos;
-    private String type;
+    private String typeId;
     private String typeName;
     private String specX;
     private String specY;
     private BigDecimal stockNum;
     private String unit;
     private String createId;
+    private String createName;
     private String createTime;
     private List<GoodsAttr> goodsAttrList;
     private List<GoodsSpec> goodsSpecList;
@@ -32,14 +33,14 @@ public class Goods {
 
     }
 
-    public Goods(String enterpriseId, String name, String photos, String type,
+    public Goods(String enterpriseId, String name, String photos, String typeId,
                  String specX, String specY, String createId, String unit,
                  List<GoodsAttr> goodsAttrList, List<GoodsSpec> goodsSpecList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.name = name;
         this.photos = photos;
-        this.type = type;
+        this.typeId = typeId;
         this.specX = specX;
         this.specY = specY;
         this.createId = createId;
@@ -88,12 +89,12 @@ public class Goods {
         this.photos = photos;
     }
 
-    public String getType() {
-        return type;
+    public String getTypeId() {
+        return typeId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
     }
 
     public String getTypeName() {
@@ -142,6 +143,14 @@ public class Goods {
 
     public void setCreateId(String createId) {
         this.createId = createId;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
     }
 
     public String getCreateTime() {

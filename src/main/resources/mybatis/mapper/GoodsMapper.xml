@@ -11,7 +11,11 @@
         <result column="spec_y" property="specY" jdbcType="VARCHAR"/>
         <result column="stock_num" property="stockNum" jdbcType="DECIMAL"/>
         <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="type_id" property="typeId" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="create_id" property="createId" jdbcType="VARCHAR"/>
+        <result column="create_name" property="createName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
         <collection property="goodsSpecList"
                     javaType="list"
                     ofType="com.bc.erp.entity.GoodsSpec"
@@ -35,7 +39,7 @@
         no,
         name,
         photos,
-        type,
+        type_id,
         spec_x,
         spec_y,
         unit,
@@ -50,7 +54,7 @@
         #{no},
         #{name},
         #{photos},
-        #{type},
+        #{typeId},
         #{specX},
         #{specY},
         #{unit},
@@ -61,21 +65,25 @@
     </insert>
 
     <select id="getGoodsList" resultMap="goods">
-        SELECT *
-        FROM t_goods
-        WHERE enterprise_id = #{enterpriseId}
-        AND delete_status = #{deleteStatus}
+        SELECT g.*,
+        gt.name AS type_name,
+        u.name AS create_name
+        FROM t_goods g
+        LEFT JOIN t_goods_type gt ON g.type_id = gt.id
+        LEFT JOIN t_user u ON g.create_id = u.id
+        WHERE g.enterprise_id = #{enterpriseId}
+        AND g.delete_status = #{deleteStatus}
         <if test="keyword != null and keyword != ''">
-            AND CONCAT(name, no) LIKE CONCAT('%', #{keyword},'%')
+            AND CONCAT(g.name, g.no) LIKE CONCAT('%', #{keyword},'%')
         </if>
-        ORDER BY modify_time DESC
+        ORDER BY g.modify_time DESC
     </select>
 
     <select id="getGoodsById" resultMap="goods" parameterType="String">
         SELECT g.*,
         gt.name AS type_name
         FROM t_goods g
-        LEFT JOIN t_goods_type gt ON g.type = gt.id
+        LEFT JOIN t_goods_type gt ON g.type_id = gt.id
         WHERE g.id = #{goodsId}
     </select>
 
