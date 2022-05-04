@@ -7,10 +7,16 @@
         <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
         <result column="type" property="type" jdbcType="VARCHAR"/>
         <result column="rc_id" property="rcId" jdbcType="VARCHAR"/>
+        <result column="rc_name" property="rcName" jdbcType="VARCHAR"/>
         <result column="rc_contact_id" property="rcContactId" jdbcType="VARCHAR"/>
+        <result column="rc_contact_name" property="rcContactName" jdbcType="VARCHAR"/>
         <result column="no" property="no" jdbcType="VARCHAR"/>
         <result column="project_id" property="projectId" jdbcType="VARCHAR"/>
+        <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
         <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
+        <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
+        <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR"/>
         <result column="currency" property="currency" jdbcType="VARCHAR"/>
         <result column="create_id" property="createId" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
@@ -25,7 +31,7 @@
         rc_id,
         rc_contact_id,
         no,
-        po,
+        project_id,
         goods_id,
         create_id,
         create_time
@@ -38,7 +44,7 @@
         #{rcId},
         #{rcContactId},
         #{no},
-        #{po},
+        #{projectId},
         #{goodsId},
         #{createId},
         now()
@@ -46,9 +52,19 @@
     </insert>
 
     <select id="getOrderById" resultMap="order">
-        SELECT *
-        FROM t_order
-        WHERE id = #{id}
+        SELECT o.*,
+        rc.name AS rc_name,
+        rcc.name AS rc_contact_name,
+        p.name AS project_name,
+        g.no AS goods_no,
+        g.name AS goods_name,
+        g.unit AS goods_unit
+        FROM t_order o
+        LEFT JOIN t_related_company rc ON o.rc_id = rc.id
+        LEFT JOIN t_related_company_contact rcc ON o.rc_contact_id = rcc.id
+        LEFT JOIN t_project p ON o.project_id = p.id
+        LEFT JOIN t_goods g ON o.goods_id = g.id
+        WHERE o.id = #{id}
     </select>
 
 </mapper>

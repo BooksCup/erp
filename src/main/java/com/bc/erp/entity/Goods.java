@@ -32,9 +32,9 @@ public class Goods {
 
     }
 
-    public Goods(String enterpriseId, String name, String photos,
-                 String type, String specX, String specY,
-                 List<GoodsAttr> goodsAttrList, List<GoodsSpec> goodsSpecList, String createId) {
+    public Goods(String enterpriseId, String name, String photos, String type,
+                 String specX, String specY, String createId, String unit,
+                 List<GoodsAttr> goodsAttrList, List<GoodsSpec> goodsSpecList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.name = name;
@@ -42,9 +42,10 @@ public class Goods {
         this.type = type;
         this.specX = specX;
         this.specY = specY;
+        this.createId = createId;
+        this.unit = unit;
         this.goodsSpecList = goodsSpecList;
         this.goodsAttrList = goodsAttrList;
-        this.createId = createId;
     }
 
     public String getId() {

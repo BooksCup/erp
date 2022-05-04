@@ -37,14 +37,14 @@ public class OrderController {
             @RequestParam String type,
             @RequestParam String rcId,
             @RequestParam(required = false) String rcContactId,
-            @RequestParam String po,
             @RequestParam String goodsId,
+            @RequestParam String projectId,
             @RequestParam String orderMaterials,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         try {
             List<OrderMaterial> orderMaterialList = JsonUtil.jsonArrayToList(orderMaterials, OrderMaterial.class);
-            Order order = new Order(enterpriseId, type, rcId, rcContactId, po, goodsId, createId, orderMaterialList);
+            Order order = new Order(enterpriseId, type, rcId, rcContactId, goodsId, projectId, createId, orderMaterialList);
             String orderNo = orderUtil.getOrderNo(order);
             order.setNo(orderNo);
             orderService.addOrder(order);
@@ -57,7 +57,7 @@ public class OrderController {
     }
 
     @ApiOperation(value = "根据订单ID获取订单信息", notes = "根据订单ID获取订单信息")
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Order> getOrderById(
             @PathVariable String id) {
         ResponseEntity<Order> responseEntity;

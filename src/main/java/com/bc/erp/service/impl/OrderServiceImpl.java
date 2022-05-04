@@ -7,6 +7,7 @@ import com.bc.erp.mapper.OrderMaterialMapper;
 import com.bc.erp.service.OrderService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,12 +37,14 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.addOrder(order);
 
         List<OrderMaterial> orderMaterialList = order.getOrderMaterialList();
-        for (OrderMaterial orderMaterial : orderMaterialList) {
-            orderMaterial.setOrderId(order.getId());
-            orderMaterial.setOrderId(order.getId());
-            orderMaterial.setCreateId(order.getCreateId());
+        if (!CollectionUtils.isEmpty(orderMaterialList)) {
+            for (OrderMaterial orderMaterial : orderMaterialList) {
+                orderMaterial.setOrderId(order.getId());
+                orderMaterial.setOrderId(order.getId());
+                orderMaterial.setCreateId(order.getCreateId());
+            }
+            orderMaterialMapper.addOrderMaterialList(order.getOrderMaterialList());
         }
-        orderMaterialMapper.addOrderMaterialList(order.getOrderMaterialList());
     }
 
     /**

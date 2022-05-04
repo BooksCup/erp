@@ -38,6 +38,7 @@
         type,
         spec_x,
         spec_y,
+        unit,
         create_id,
         create_time,
         modify_time
@@ -52,6 +53,7 @@
         #{type},
         #{specX},
         #{specY},
+        #{unit},
         #{createId},
         now(),
         now()
