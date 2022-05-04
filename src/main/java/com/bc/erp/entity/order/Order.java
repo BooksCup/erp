@@ -28,10 +28,13 @@ public class Order {
     private String goodsId;
     private String goodsName;
     private String goodsNo;
+    private String goodsPhotos;
     private String goodsUnit;
+    private String typeName;
 
     private String currency;
     private String createId;
+    private String createName;
     private String createTime;
     private List<OrderMaterial> orderMaterialList;
 
@@ -50,38 +53,6 @@ public class Order {
         this.projectId = projectId;
         this.createId = createId;
         this.orderMaterialList = orderMaterialList;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getGoodsName() {
-        return goodsName;
-    }
-
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName;
-    }
-
-    public String getGoodsNo() {
-        return goodsNo;
-    }
-
-    public void setGoodsNo(String goodsNo) {
-        this.goodsNo = goodsNo;
-    }
-
-    public String getGoodsUnit() {
-        return goodsUnit;
-    }
-
-    public void setGoodsUnit(String goodsUnit) {
-        this.goodsUnit = goodsUnit;
     }
 
     public String getId() {
@@ -148,6 +119,14 @@ public class Order {
         this.projectId = projectId;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
     public String getNo() {
         return no;
     }
@@ -164,6 +143,46 @@ public class Order {
         this.goodsId = goodsId;
     }
 
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getGoodsNo() {
+        return goodsNo;
+    }
+
+    public void setGoodsNo(String goodsNo) {
+        this.goodsNo = goodsNo;
+    }
+
+    public String getGoodsPhotos() {
+        return goodsPhotos;
+    }
+
+    public void setGoodsPhotos(String goodsPhotos) {
+        this.goodsPhotos = goodsPhotos;
+    }
+
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
+
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
     public String getCurrency() {
         return currency;
     }
@@ -178,6 +197,14 @@ public class Order {
 
     public void setCreateId(String createId) {
         this.createId = createId;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
     }
 
     public String getCreateTime() {

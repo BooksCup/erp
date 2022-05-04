@@ -15,10 +15,13 @@
         <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
         <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
         <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_photos" property="goodsPhotos" jdbcType="VARCHAR"/>
         <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
         <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="currency" property="currency" jdbcType="VARCHAR"/>
         <result column="create_id" property="createId" jdbcType="VARCHAR"/>
+        <result column="create_name" property="createName" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -59,13 +62,18 @@
         rcc.name AS rc_contact_name,
         p.name AS project_name,
         g.no AS goods_no,
+        g.photos AS goods_photos,
         g.name AS goods_name,
-        g.unit AS goods_unit
+        g.unit AS goods_unit,
+        gt.name AS type_name,
+        u.name AS create_name
         FROM t_order o
         LEFT JOIN t_related_company rc ON o.rc_id = rc.id
         LEFT JOIN t_related_company_contact rcc ON o.rc_contact_id = rcc.id
         LEFT JOIN t_project p ON o.project_id = p.id
         LEFT JOIN t_goods g ON o.goods_id = g.id
+        LEFT JOIN t_goods_type gt ON g.type_id = gt.id
+        LEFT JOIN t_user u on o.create_id = u.id
         WHERE o.enterprise_id = #{enterpriseId}
         AND o.delete_status = #{deleteStatus}
         ORDER BY o.modify_time DESC
