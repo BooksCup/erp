@@ -1,18 +1,24 @@
 package com.bc.erp.controller.order;
 
+import com.bc.erp.cons.Constant;
+import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.order.Order;
 import com.bc.erp.entity.order.OrderMaterial;
+import com.bc.erp.enums.FlagEnum;
 import com.bc.erp.enums.ResponseMsg;
 import com.bc.erp.service.OrderService;
 import com.bc.erp.utils.JsonUtil;
 import com.bc.erp.utils.OrderUtil;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 订单
@@ -29,6 +35,26 @@ public class OrderController {
 
     @Resource
     OrderUtil orderUtil;
+
+    @ApiOperation(value = "获取订单分页信息", notes = "获取订单分页信息")
+    @GetMapping(value = "/pageInfo")
+    public ResponseEntity<PageInfo<Order>> getGoodsPageInfo(
+            @RequestParam String enterpriseId,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+        ResponseEntity<PageInfo<Order>> responseEntity;
+        try {
+            Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("enterpriseId", enterpriseId);
+            paramMap.put("deleteStatus", FlagEnum.FALSE.getCode());
+            PageInfo<Order> pageInfo = orderService.getOrderPageInfo(paramMap, pageNum, pageSize);
+            responseEntity = new ResponseEntity<>(pageInfo, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new PageInfo<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
 
     @ApiOperation(value = "新增订单", notes = "新增订单")
     @PostMapping(value = "")

@@ -34,7 +34,8 @@
         project_id,
         goods_id,
         create_id,
-        create_time
+        create_time,
+        modify_time
         )
         VALUES
         (
@@ -47,9 +48,28 @@
         #{projectId},
         #{goodsId},
         #{createId},
+        now(),
         now()
         )
     </insert>
+
+    <select id="getOrderList" resultMap="order">
+        SELECT o.*,
+        rc.name AS rc_name,
+        rcc.name AS rc_contact_name,
+        p.name AS project_name,
+        g.no AS goods_no,
+        g.name AS goods_name,
+        g.unit AS goods_unit
+        FROM t_order o
+        LEFT JOIN t_related_company rc ON o.rc_id = rc.id
+        LEFT JOIN t_related_company_contact rcc ON o.rc_contact_id = rcc.id
+        LEFT JOIN t_project p ON o.project_id = p.id
+        LEFT JOIN t_goods g ON o.goods_id = g.id
+        WHERE o.enterprise_id = #{enterpriseId}
+        AND o.delete_status = #{deleteStatus}
+        ORDER BY o.modify_time DESC
+    </select>
 
     <select id="getOrderById" resultMap="order">
         SELECT o.*,

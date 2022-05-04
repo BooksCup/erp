@@ -1,6 +1,9 @@
 package com.bc.erp.service;
 
 import com.bc.erp.entity.order.Order;
+import com.github.pagehelper.PageInfo;
+
+import java.util.Map;
 
 /**
  * 订单
@@ -8,6 +11,16 @@ import com.bc.erp.entity.order.Order;
  * @author zhou
  */
 public interface OrderService {
+
+    /**
+     * 获取订单分页信息
+     *
+     * @param paramMap 参数map
+     * @param pageNum  当前分页数
+     * @param pageSize 分页大小
+     * @return 订单分页信息
+     */
+    PageInfo<Order> getOrderPageInfo(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
 
     /**
      * 新增订单
