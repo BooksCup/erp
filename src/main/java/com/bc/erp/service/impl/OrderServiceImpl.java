@@ -1,6 +1,6 @@
 package com.bc.erp.service.impl;
 
-import com.bc.erp.entity.Goods;
+import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.order.Order;
 import com.bc.erp.entity.order.OrderMaterial;
 import com.bc.erp.mapper.OrderMapper;
@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +60,6 @@ public class OrderServiceImpl implements OrderService {
         if (!CollectionUtils.isEmpty(orderMaterialList)) {
             for (OrderMaterial orderMaterial : orderMaterialList) {
                 orderMaterial.setOrderId(order.getId());
-                orderMaterial.setOrderId(order.getId());
                 orderMaterial.setCreateId(order.getCreateId());
             }
             orderMaterialMapper.addOrderMaterialList(order.getOrderMaterialList());
@@ -75,7 +75,14 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Order getOrderById(String id) {
-        return orderMapper.getOrderById(id);
+        Order order = orderMapper.getOrderById(id);
+        if (null != order) {
+            Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("orderId", id);
+            List<OrderMaterial> orderMaterialList = orderMaterialMapper.getOrderMaterialList(paramMap);
+            order.setOrderMaterialList(orderMaterialList);
+        }
+        return order;
     }
 
 }
