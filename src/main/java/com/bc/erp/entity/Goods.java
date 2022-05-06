@@ -19,6 +19,7 @@ public class Goods {
     private String photos;
     private String typeId;
     private String typeName;
+    private String typeSymbol;
     private String specX;
     private String specY;
     private BigDecimal stockNum;
@@ -103,6 +104,14 @@ public class Goods {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public String getTypeSymbol() {
+        return typeSymbol;
+    }
+
+    public void setTypeSymbol(String typeSymbol) {
+        this.typeSymbol = typeSymbol;
     }
 
     public String getSpecX() {

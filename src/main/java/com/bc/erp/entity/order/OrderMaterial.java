@@ -11,6 +11,7 @@ public class OrderMaterial {
     private String orderId;
     private String goodsId;
     private String goodsNo;
+    private String goodsPhotos;
     private String goodsName;
     private String goodsUnit;
     private String typeName;
@@ -18,7 +19,18 @@ public class OrderMaterial {
     private String status;
     private String currency;
     private String relatedOrderId;
+    private String relatedOrderNo;
     private String createId;
+
+    public OrderMaterial() {
+
+    }
+
+    public OrderMaterial(String orderId, String goodsId, String relatedOrderId) {
+        this.orderId = orderId;
+        this.goodsId = goodsId;
+        this.relatedOrderId = relatedOrderId;
+    }
 
     public String getId() {
         return id;
@@ -50,6 +62,14 @@ public class OrderMaterial {
 
     public void setGoodsNo(String goodsNo) {
         this.goodsNo = goodsNo;
+    }
+
+    public String getGoodsPhotos() {
+        return goodsPhotos;
+    }
+
+    public void setGoodsPhotos(String goodsPhotos) {
+        this.goodsPhotos = goodsPhotos;
     }
 
     public String getGoodsName() {
@@ -106,6 +126,14 @@ public class OrderMaterial {
 
     public void setRelatedOrderId(String relatedOrderId) {
         this.relatedOrderId = relatedOrderId;
+    }
+
+    public String getRelatedOrderNo() {
+        return relatedOrderNo;
+    }
+
+    public void setRelatedOrderNo(String relatedOrderNo) {
+        this.relatedOrderNo = relatedOrderNo;
     }
 
     public String getCreateId() {

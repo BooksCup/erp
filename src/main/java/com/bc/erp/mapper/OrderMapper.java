@@ -28,6 +28,13 @@ public interface OrderMapper {
     void addOrder(Order order);
 
     /**
+     * 新增订单列表
+     *
+     * @param orderList 订单列表
+     */
+    void addOrderList(List<Order> orderList);
+
+    /**
      * 根据订单ID获取订单信息
      *
      * @param id 订单ID

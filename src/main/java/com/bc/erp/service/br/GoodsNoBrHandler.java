@@ -4,6 +4,7 @@ import com.bc.erp.entity.Goods;
 
 /**
  * 业务规则处理器
+ * 生成物料号
  *
  * @author zhou
  */

@@ -13,6 +13,7 @@ public class Order {
 
     private String id;
     private String enterpriseId;
+    private String parentId;
     private String type;
 
     private String rcId;
@@ -69,6 +70,14 @@ public class Order {
 
     public void setEnterpriseId(String enterpriseId) {
         this.enterpriseId = enterpriseId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public String getType() {

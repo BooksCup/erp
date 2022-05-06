@@ -13,6 +13,7 @@
         <result column="unit" property="unit" jdbcType="VARCHAR"/>
         <result column="type_id" property="typeId" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="type_symbol" property="typeSymbol" jdbcType="VARCHAR"/>
         <result column="create_id" property="createId" jdbcType="VARCHAR"/>
         <result column="create_name" property="createName" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
@@ -81,7 +82,8 @@
 
     <select id="getGoodsById" resultMap="goods" parameterType="String">
         SELECT g.*,
-        gt.name AS type_name
+        gt.name AS type_name,
+        gt.symbol AS type_symbol
         FROM t_goods g
         LEFT JOIN t_goods_type gt ON g.type_id = gt.id
         WHERE g.id = #{goodsId}

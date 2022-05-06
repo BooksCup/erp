@@ -32,18 +32,20 @@ public class CommonUtil {
     }
 
     /**
-     * 数字前面自动补零
-     * @param number 数字
-     * @return
+     * 数字前面填充零
+     *
+     * @param number               数字
+     * @param minimumIntegerDigits 填充后的数字长度
+     * @return 填充零后的数字
      */
-    public static String geFourNumber(int number){
+    public static String fillNumWithZero(int number, int minimumIntegerDigits) {
         NumberFormat formatter = NumberFormat.getNumberInstance();
-        formatter.setMinimumIntegerDigits(2);
+        formatter.setMinimumIntegerDigits(minimumIntegerDigits);
         formatter.setGroupingUsed(false);
         return formatter.format(number);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println(generateId());
     }
 

@@ -10,7 +10,8 @@ public class EnterpriseBr {
     private String id;
     private String enterpriseId;
     private String goodsNoRule;
-    private String orderNoRule;
+    private String salesOrderNoRule;
+    private String purchaseOrderNoRule;
 
     public String getId() {
         return id;
@@ -36,12 +37,20 @@ public class EnterpriseBr {
         this.goodsNoRule = goodsNoRule;
     }
 
-    public String getOrderNoRule() {
-        return orderNoRule;
+    public String getSalesOrderNoRule() {
+        return salesOrderNoRule;
     }
 
-    public void setOrderNoRule(String orderNoRule) {
-        this.orderNoRule = orderNoRule;
+    public void setSalesOrderNoRule(String salesOrderNoRule) {
+        this.salesOrderNoRule = salesOrderNoRule;
+    }
+
+    public String getPurchaseOrderNoRule() {
+        return purchaseOrderNoRule;
+    }
+
+    public void setPurchaseOrderNoRule(String purchaseOrderNoRule) {
+        this.purchaseOrderNoRule = purchaseOrderNoRule;
     }
 
 }

@@ -56,6 +56,42 @@
         )
     </insert>
 
+    <insert id="addOrderList" parameterType="list">
+        INSERT INTO t_order
+        (
+        id,
+        enterprise_id,
+        parent_id,
+        type,
+        rc_id,
+        rc_contact_id,
+        no,
+        project_id,
+        goods_id,
+        create_id,
+        create_time,
+        modify_time
+        )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.enterpriseId},
+            #{item.parentId},
+            #{item.type},
+            #{item.rcId},
+            #{item.rcContactId},
+            #{item.no},
+            #{item.projectId},
+            #{item.goodsId},
+            #{item.createId},
+            now(),
+            now()
+            )
+        </foreach>
+    </insert>
+
+
     <select id="getOrderList" resultMap="order">
         SELECT o.*,
         rc.name AS rc_name,
@@ -85,6 +121,7 @@
         rcc.name AS rc_contact_name,
         p.name AS project_name,
         g.no AS goods_no,
+        g.photos AS goods_photos,
         g.name AS goods_name,
         g.unit AS goods_unit,
         gt.name AS type_name,

@@ -7,6 +7,7 @@
         <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
         <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
         <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_photos" property="goodsPhotos" jdbcType="VARCHAR"/>
         <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
         <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
@@ -14,6 +15,7 @@
         <result column="status" property="status" jdbcType="VARCHAR"/>
         <result column="currency" property="currency" jdbcType="VARCHAR"/>
         <result column="related_order_id" property="relatedOrderId" jdbcType="VARCHAR"/>
+        <result column="related_order_no" property="relatedOrderNo" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="addOrderMaterialList" parameterType="list">
@@ -44,13 +46,28 @@
     <select id="getOrderMaterialList" resultMap="orderMaterial">
         SELECT om.*,
         g.no AS goods_no,
+        g.photos AS goods_photos,
         g.name AS goods_name,
         g.unit AS goods_unit,
-        gt.name AS type_name
+        gt.name AS type_name,
+        o.no AS related_order_no
         FROM t_order_material om
         LEFT JOIN t_goods g ON om.goods_id = g.id
         LEFT JOIN t_goods_type gt ON g.type_id = gt.id
+        LEFT JOIN t_order o ON om.related_order_id = o.id
         WHERE om.order_id = #{orderId}
     </select>
+
+    <update id="updateOrderMaterialListForPurchase" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_order_material
+            <set>
+                status = #{item.status},
+                related_order_id =  #{item.relatedOrderId}
+            </set>
+            WHERE order_id = #{item.orderId}
+            AND goods_id = #{item.goodsId}
+        </foreach>
+    </update>
 
 </mapper>

@@ -27,4 +27,11 @@ public interface OrderMaterialMapper {
      */
     List<OrderMaterial> getOrderMaterialList(Map<String, Object> paramMap);
 
+    /**
+     * 采购更新材料单列表
+     *
+     * @param orderMaterialList 材料单列表
+     */
+    void updateOrderMaterialListForPurchase(List<OrderMaterial> orderMaterialList);
+
 }

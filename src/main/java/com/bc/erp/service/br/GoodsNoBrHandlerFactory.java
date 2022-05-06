@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * 处理器工厂
+ * 生成物料号
  *
  * @author zhou
  */

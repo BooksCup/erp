@@ -5,9 +5,9 @@
     <resultMap id="enterpriseBr" type="com.bc.erp.entity.EnterpriseBr">
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
-        <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="symbol" property="symbol" jdbcType="VARCHAR"/>
+        <result column="goods_no_rule" property="goodsNoRule" jdbcType="VARCHAR"/>
+        <result column="sales_order_no_rule" property="salesOrderNoRule" jdbcType="VARCHAR"/>
+        <result column="purchase_order_no_rule" property="purchaseOrderNoRule" jdbcType="VARCHAR"/>
     </resultMap>
 
     <select id="getEnterpriseBr" resultMap="enterpriseBr" parameterType="String">
