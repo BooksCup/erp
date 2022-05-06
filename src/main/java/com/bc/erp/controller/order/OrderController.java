@@ -2,6 +2,7 @@ package com.bc.erp.controller.order;
 
 import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.order.Order;
+import com.bc.erp.entity.order.OrderDelivery;
 import com.bc.erp.entity.order.OrderMaterial;
 import com.bc.erp.enums.FlagEnum;
 import com.bc.erp.enums.ResponseMsg;
@@ -36,12 +37,15 @@ public class OrderController {
     public ResponseEntity<PageInfo<Order>> getGoodsPageInfo(
             @RequestParam String enterpriseId,
             @RequestParam(required = false, defaultValue = "1") Integer pageNum,
-            @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam String types) {
         ResponseEntity<PageInfo<Order>> responseEntity;
         try {
+            List<String> typeList = JsonUtil.jsonArrayToList(types, String.class);
             Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
             paramMap.put("enterpriseId", enterpriseId);
             paramMap.put("deleteStatus", FlagEnum.FALSE.getCode());
+            paramMap.put("typeList", typeList);
             PageInfo<Order> pageInfo = orderService.getOrderPageInfo(paramMap, pageNum, pageSize);
             responseEntity = new ResponseEntity<>(pageInfo, HttpStatus.OK);
         } catch (Exception e) {
@@ -61,11 +65,14 @@ public class OrderController {
             @RequestParam String goodsId,
             @RequestParam String projectId,
             @RequestParam String orderMaterials,
+            @RequestParam String orderDeliverys,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         try {
             List<OrderMaterial> orderMaterialList = JsonUtil.jsonArrayToList(orderMaterials, OrderMaterial.class);
-            Order order = new Order(enterpriseId, type, rcId, rcContactId, goodsId, projectId, createId, orderMaterialList);
+            List<OrderDelivery> orderDeliveryList = JsonUtil.jsonArrayToList(orderDeliverys, OrderDelivery.class);
+            Order order = new Order(enterpriseId, type, rcId, rcContactId, goodsId,
+                    projectId, createId, orderMaterialList, orderDeliveryList);
             orderService.addOrder(order);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {

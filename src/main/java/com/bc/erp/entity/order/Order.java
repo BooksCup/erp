@@ -38,13 +38,15 @@ public class Order {
     private String createName;
     private String createTime;
     private List<OrderMaterial> orderMaterialList;
+    private List<OrderDelivery> orderDeliveryList;
 
     public Order() {
 
     }
 
     public Order(String enterpriseId, String type, String rcId, String rcContactId,
-                 String goodsId, String projectId, String createId, List<OrderMaterial> orderMaterialList) {
+                 String goodsId, String projectId, String createId,
+                 List<OrderMaterial> orderMaterialList, List<OrderDelivery> orderDeliveryList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
         this.type = type;
@@ -54,6 +56,7 @@ public class Order {
         this.projectId = projectId;
         this.createId = createId;
         this.orderMaterialList = orderMaterialList;
+        this.orderDeliveryList = orderDeliveryList;
     }
 
     public String getId() {
@@ -230,6 +233,14 @@ public class Order {
 
     public void setOrderMaterialList(List<OrderMaterial> orderMaterialList) {
         this.orderMaterialList = orderMaterialList;
+    }
+
+    public List<OrderDelivery> getOrderDeliveryList() {
+        return orderDeliveryList;
+    }
+
+    public void setOrderDeliveryList(List<OrderDelivery> orderDeliveryList) {
+        this.orderDeliveryList = orderDeliveryList;
     }
 
 }

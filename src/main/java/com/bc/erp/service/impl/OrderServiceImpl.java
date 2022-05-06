@@ -3,9 +3,12 @@ package com.bc.erp.service.impl;
 import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.EnterpriseBr;
 import com.bc.erp.entity.order.Order;
+import com.bc.erp.entity.order.OrderDelivery;
+import com.bc.erp.entity.order.OrderDeliveryDetail;
 import com.bc.erp.entity.order.OrderMaterial;
 import com.bc.erp.enums.OrderTypeEnum;
 import com.bc.erp.mapper.EnterpriseBrMapper;
+import com.bc.erp.mapper.OrderDeliveryMapper;
 import com.bc.erp.mapper.OrderMapper;
 import com.bc.erp.mapper.OrderMaterialMapper;
 import com.bc.erp.service.OrderService;
@@ -16,6 +19,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -36,6 +40,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     OrderMaterialMapper orderMaterialMapper;
+
+    @Resource
+    OrderDeliveryMapper orderDeliveryMapper;
 
     @Resource
     OrderNoBrHandlerFactory orderNoBrHandlerFactory;
@@ -83,6 +90,29 @@ public class OrderServiceImpl implements OrderService {
                 orderMaterial.setCreateId(order.getCreateId());
             }
             orderMaterialMapper.addOrderMaterialList(order.getOrderMaterialList());
+        }
+
+        List<OrderDelivery> orderDeliveryList = order.getOrderDeliveryList();
+        List<OrderDeliveryDetail> orderDeliveryDetailList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(orderDeliveryList)) {
+            for (OrderDelivery orderDelivery : orderDeliveryList) {
+                String deliveryId = CommonUtil.generateId();
+                orderDelivery.setId(deliveryId);
+                orderDelivery.setOrderId(order.getId());
+                orderDelivery.setCreateId(order.getCreateId());
+                List<OrderDeliveryDetail> detailList = orderDelivery.getOrderDeliveryDetailList();
+                if (!CollectionUtils.isEmpty(detailList)) {
+                    for (OrderDeliveryDetail detail : detailList) {
+                        detail.setId(CommonUtil.generateId());
+                        detail.setDeliveryId(deliveryId);
+                    }
+                    orderDeliveryDetailList.addAll(detailList);
+                }
+            }
+            orderDeliveryMapper.addOrderDeliveryList(orderDeliveryList);
+        }
+        if (!CollectionUtils.isEmpty(orderDeliveryDetailList)) {
+            orderDeliveryMapper.addOrderDeliveryDetailList(orderDeliveryDetailList);
         }
 
     }

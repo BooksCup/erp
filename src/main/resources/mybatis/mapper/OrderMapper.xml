@@ -91,7 +91,6 @@
         </foreach>
     </insert>
 
-
     <select id="getOrderList" resultMap="order">
         SELECT o.*,
         rc.name AS rc_name,
@@ -112,6 +111,10 @@
         LEFT JOIN t_user u on o.create_id = u.id
         WHERE o.enterprise_id = #{enterpriseId}
         AND o.delete_status = #{deleteStatus}
+        AND o.type in
+        <foreach collection="typeList" item="type" index="index" open="(" close=")" separator=",">
+            #{type}
+        </foreach>
         ORDER BY o.modify_time DESC
     </select>
 

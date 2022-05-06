@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bc.erp.mapper.OrderDeliveryMapper">
+
+    <insert id="addOrderDeliveryList" parameterType="list">
+        insert into t_order_delivery
+        (
+        id,
+        order_id,
+        date,
+        unit,
+        remark,
+        create_id,
+        create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.orderId},
+            #{item.date},
+            #{item.unit},
+            #{item.remark},
+            #{item.createId},
+            now()
+            )
+        </foreach>
+    </insert>
+
+    <insert id="addOrderDeliveryDetailList" parameterType="list">
+        insert into t_order_delivery_detail
+        (
+        id,
+        delivery_id,
+        goods_id,
+        spec_id,
+        num,
+        create_time
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id},
+            #{item.deliveryId},
+            #{item.goodsId},
+            #{item.specId},
+            #{item.num},
+            now()
+            )
+        </foreach>
+    </insert>
+
+</mapper>
