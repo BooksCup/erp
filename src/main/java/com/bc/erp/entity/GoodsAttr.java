@@ -8,6 +8,7 @@ package com.bc.erp.entity;
 public class GoodsAttr {
 
     private String id;
+    private String enterpriseId;
     private String goodsId;
     private String attrKey;
     private String attrValue;
@@ -20,6 +21,14 @@ public class GoodsAttr {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     public String getGoodsId() {

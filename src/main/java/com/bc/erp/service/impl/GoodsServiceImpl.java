@@ -63,6 +63,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (!CollectionUtils.isEmpty(goods.getGoodsAttrList())) {
             int sort = 1;
             for (GoodsAttr goodsAttr : goods.getGoodsAttrList()) {
+                goodsAttr.setEnterpriseId(goods.getEnterpriseId());
                 goodsAttr.setSort(sort);
                 goodsAttr.setGoodsId(goods.getId());
                 goodsAttr.setId(CommonUtil.generateId());
@@ -75,6 +76,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (!CollectionUtils.isEmpty(goods.getGoodsSpecList())) {
             int sort = 1;
             for (GoodsSpec goodsSpec : goods.getGoodsSpecList()) {
+                goodsSpec.setEnterpriseId(goods.getEnterpriseId());
                 goodsSpec.setSort(sort);
                 goodsSpec.setGoodsId(goods.getId());
                 goodsSpec.setId(CommonUtil.generateId());

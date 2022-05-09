@@ -15,6 +15,8 @@
         <result column="project_name" property="projectName" jdbcType="VARCHAR"/>
         <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
         <result column="goods_no" property="goodsNo" jdbcType="VARCHAR"/>
+        <result column="goods_spec_x" property="goodsSpecX" jdbcType="VARCHAR"/>
+        <result column="goods_spec_y" property="goodsSpecY" jdbcType="VARCHAR"/>
         <result column="goods_photos" property="goodsPhotos" jdbcType="VARCHAR"/>
         <result column="goods_name" property="goodsName" jdbcType="VARCHAR"/>
         <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR"/>
@@ -97,6 +99,8 @@
         rcc.name AS rc_contact_name,
         p.name AS project_name,
         g.no AS goods_no,
+        g.spec_x AS goods_spec_x,
+        g.spec_y AS goods_spec_y,
         g.photos AS goods_photos,
         g.name AS goods_name,
         g.unit AS goods_unit,
@@ -124,6 +128,8 @@
         rcc.name AS rc_contact_name,
         p.name AS project_name,
         g.no AS goods_no,
+        g.spec_x AS goods_spec_x,
+        g.spec_y AS goods_spec_y,
         g.photos AS goods_photos,
         g.name AS goods_name,
         g.unit AS goods_unit,

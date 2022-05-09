@@ -83,9 +83,11 @@
     <select id="getGoodsById" resultMap="goods" parameterType="String">
         SELECT g.*,
         gt.name AS type_name,
-        gt.symbol AS type_symbol
+        gt.symbol AS type_symbol,
+        u.name AS create_name
         FROM t_goods g
         LEFT JOIN t_goods_type gt ON g.type_id = gt.id
+        LEFT JOIN t_user u ON g.create_id = u.id
         WHERE g.id = #{goodsId}
     </select>
 

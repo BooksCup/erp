@@ -15,6 +15,7 @@ public class Order {
     private String enterpriseId;
     private String parentId;
     private String type;
+    private String no;
 
     private String rcId;
     private String rcName;
@@ -25,10 +26,11 @@ public class Order {
     private String projectId;
     private String projectName;
 
-    private String no;
     private String goodsId;
     private String goodsName;
     private String goodsNo;
+    private String goodsSpecX;
+    private String goodsSpecY;
     private String goodsPhotos;
     private String goodsUnit;
     private String typeName;
@@ -91,6 +93,14 @@ public class Order {
         this.type = type;
     }
 
+    public String getNo() {
+        return no;
+    }
+
+    public void setNo(String no) {
+        this.no = no;
+    }
+
     public String getRcId() {
         return rcId;
     }
@@ -139,14 +149,6 @@ public class Order {
         this.projectName = projectName;
     }
 
-    public String getNo() {
-        return no;
-    }
-
-    public void setNo(String no) {
-        this.no = no;
-    }
-
     public String getGoodsId() {
         return goodsId;
     }
@@ -169,6 +171,22 @@ public class Order {
 
     public void setGoodsNo(String goodsNo) {
         this.goodsNo = goodsNo;
+    }
+
+    public String getGoodsSpecX() {
+        return goodsSpecX;
+    }
+
+    public void setGoodsSpecX(String goodsSpecX) {
+        this.goodsSpecX = goodsSpecX;
+    }
+
+    public String getGoodsSpecY() {
+        return goodsSpecY;
+    }
+
+    public void setGoodsSpecY(String goodsSpecY) {
+        this.goodsSpecY = goodsSpecY;
     }
 
     public String getGoodsPhotos() {

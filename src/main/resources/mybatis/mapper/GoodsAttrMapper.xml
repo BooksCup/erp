@@ -4,6 +4,7 @@
 
     <resultMap id="goodsAttr" type="com.bc.erp.entity.GoodsAttr">
         <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
         <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
         <result column="attr_key" property="attrKey" jdbcType="VARCHAR"/>
         <result column="attr_value" property="attrValue" jdbcType="VARCHAR"/>
@@ -15,6 +16,7 @@
         insert into t_goods_attr
         (
         id,
+        enterprise_id,
         goods_id,
         attr_key,
         attr_value,
@@ -25,6 +27,7 @@
         <foreach collection="list" item="item" separator=",">
             (
             #{item.id},
+            #{item.enterpriseId},
             #{item.goodsId},
             #{item.attrKey},
             #{item.attrValue},

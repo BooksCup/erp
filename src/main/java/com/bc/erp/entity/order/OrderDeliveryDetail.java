@@ -14,6 +14,8 @@ public class OrderDeliveryDetail {
     private String deliveryId;
     private String goodsId;
     private String specId;
+    private String specX;
+    private String specY;
     private BigDecimal num;
     private String createTime;
 
@@ -55,6 +57,22 @@ public class OrderDeliveryDetail {
 
     public void setSpecId(String specId) {
         this.specId = specId;
+    }
+
+    public String getSpecX() {
+        return specX;
+    }
+
+    public void setSpecX(String specX) {
+        this.specX = specX;
+    }
+
+    public String getSpecY() {
+        return specY;
+    }
+
+    public void setSpecY(String specY) {
+        this.specY = specY;
     }
 
     public BigDecimal getNum() {

@@ -18,6 +18,8 @@
         <result column="delivery_id" property="deliveryId" jdbcType="VARCHAR"/>
         <result column="goods_id" property="goodsId" jdbcType="VARCHAR"/>
         <result column="spec_id" property="specId" jdbcType="VARCHAR"/>
+        <result column="spec_x" property="specX" jdbcType="VARCHAR"/>
+        <result column="spec_y" property="specY" jdbcType="VARCHAR"/>
         <result column="num" property="num" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
     </resultMap>
@@ -79,9 +81,12 @@
     </select>
 
     <select id="getOrderDeliveryDetailList" resultMap="orderDeliveryDetail">
-        SELECT *
-        FROM t_order_delivery_detail
-        WHERE order_id = #{orderId}
+        SELECT odd.*,
+        gs.x AS spec_x,
+        gs.y AS spec_y
+        FROM t_order_delivery_detail odd
+        LEFT JOIN t_goods_spec gs ON odd.spec_id = gs.id
+        WHERE odd.order_id = #{orderId}
     </select>
 
 </mapper>
