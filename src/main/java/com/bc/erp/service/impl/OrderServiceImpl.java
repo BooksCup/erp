@@ -22,10 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 订单
@@ -104,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
                 if (!CollectionUtils.isEmpty(detailList)) {
                     for (OrderDeliveryDetail detail : detailList) {
                         detail.setId(CommonUtil.generateId());
+                        detail.setOrderId(order.getId());
                         detail.setDeliveryId(deliveryId);
                     }
                     orderDeliveryDetailList.addAll(detailList);
@@ -166,6 +164,24 @@ public class OrderServiceImpl implements OrderService {
             paramMap.put("orderId", id);
             List<OrderMaterial> orderMaterialList = orderMaterialMapper.getOrderMaterialList(paramMap);
             order.setOrderMaterialList(orderMaterialList);
+
+            List<OrderDelivery> orderDeliveryList = orderDeliveryMapper.getOrderDeliveryList(paramMap);
+            List<OrderDeliveryDetail> orderDeliveryDetailList = orderDeliveryMapper.getOrderDeliveryDetailList(paramMap);
+            Map<String, List<OrderDeliveryDetail>> map = new LinkedHashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            for (OrderDelivery orderDelivery : orderDeliveryList) {
+                map.put(orderDelivery.getId(), new ArrayList<>());
+            }
+            for (OrderDeliveryDetail detail : orderDeliveryDetailList) {
+                List<OrderDeliveryDetail> detailList = map.get(detail.getDeliveryId());
+                detailList.add(detail);
+                map.put(detail.getDeliveryId(), detailList);
+            }
+            for (OrderDelivery orderDelivery : orderDeliveryList) {
+                List<OrderDeliveryDetail> detailList = map.get(orderDelivery.getId());
+                orderDelivery.setOrderDeliveryDetailList(detailList);
+            }
+            order.setOrderDeliveryList(orderDeliveryList);
+
         }
         return order;
     }

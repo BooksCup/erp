@@ -1,8 +1,12 @@
 package com.bc.erp.utils;
 
+import com.alibaba.fastjson.JSON;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -46,7 +50,11 @@ public class CommonUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(generateId());
+//        System.out.println(generateId());
+        List<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        System.out.println(JSON.toJSONString(list));
     }
 
 }

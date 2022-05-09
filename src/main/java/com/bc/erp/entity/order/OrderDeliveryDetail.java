@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class OrderDeliveryDetail {
 
     private String id;
+    private String orderId;
     private String deliveryId;
     private String goodsId;
     private String specId;
@@ -22,6 +23,14 @@ public class OrderDeliveryDetail {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getDeliveryId() {
