@@ -32,6 +32,7 @@
         (
         id,
         enterprise_id,
+        parent_id,
         type,
         rc_id,
         rc_contact_id,
@@ -46,6 +47,7 @@
         (
         #{id},
         #{enterpriseId},
+        #{parentId},
         #{type},
         #{rcId},
         #{rcContactId},
@@ -143,6 +145,15 @@
         LEFT JOIN t_goods_type gt ON g.type_id = gt.id
         LEFT JOIN t_user u on o.create_id = u.id
         WHERE o.id = #{id}
+    </select>
+
+    <select id="getOrderListByParentIdAndGoodsType" resultMap="order">
+        SELECT o.*
+        FROM t_order o
+        LEFT JOIN t_goods g ON o.goods_id = g.id
+        LEFT JOIN t_goods_type gt ON g.type_id = gt.id
+        WHERE o.parent_id = #{parentId}
+        AND gt.symbol = #{symbol}
     </select>
 
 </mapper>

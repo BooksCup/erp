@@ -2,15 +2,13 @@ package com.bc.erp.service.impl;
 
 import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.EnterpriseBr;
+import com.bc.erp.entity.GoodsSpec;
 import com.bc.erp.entity.order.Order;
 import com.bc.erp.entity.order.OrderDelivery;
 import com.bc.erp.entity.order.OrderDeliveryDetail;
 import com.bc.erp.entity.order.OrderMaterial;
 import com.bc.erp.enums.OrderTypeEnum;
-import com.bc.erp.mapper.EnterpriseBrMapper;
-import com.bc.erp.mapper.OrderDeliveryMapper;
-import com.bc.erp.mapper.OrderMapper;
-import com.bc.erp.mapper.OrderMaterialMapper;
+import com.bc.erp.mapper.*;
 import com.bc.erp.service.OrderService;
 import com.bc.erp.service.br.OrderNoBrHandlerFactory;
 import com.bc.erp.utils.CommonUtil;
@@ -46,6 +44,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     EnterpriseBrMapper enterpriseBrMapper;
+
+    @Resource
+    GoodsSpecMapper goodsSpecMapper;
 
     /**
      * 获取订单分页信息
@@ -144,8 +145,9 @@ public class OrderServiceImpl implements OrderService {
                 OrderMaterial orderMaterial = new OrderMaterial(parentId, order.getGoodsId(), order.getId());
                 orderMaterial.setStatus("1");
                 orderMaterialList.add(orderMaterial);
+                orderMapper.addOrder(order);
             }
-            orderMapper.addOrderList(orderList);
+//            orderMapper.addOrderList(orderList);
             orderMaterialMapper.updateOrderMaterialListForPurchase(orderMaterialList);
         }
     }
@@ -160,6 +162,9 @@ public class OrderServiceImpl implements OrderService {
     public Order getOrderById(String id) {
         Order order = orderMapper.getOrderById(id);
         if (null != order) {
+            List<GoodsSpec> goodsSpecList = goodsSpecMapper.getGoodsSpecListByGoodsId(order.getGoodsId());
+            order.setGoodsSpecList(goodsSpecList);
+
             Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
             paramMap.put("orderId", id);
             List<OrderMaterial> orderMaterialList = orderMaterialMapper.getOrderMaterialList(paramMap);

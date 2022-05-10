@@ -21,6 +21,14 @@ public interface OrderMapper {
     List<Order> getOrderList(Map<String, Object> paramMap);
 
     /**
+     * 根据父订单ID和物品类型获取订单列表
+     *
+     * @param paramMap 参数map
+     * @return 订单列表
+     */
+    List<Order> getOrderListByParentIdAndGoodsType(Map<String, Object> paramMap);
+
+    /**
      * 新增订单
      *
      * @param order 订单

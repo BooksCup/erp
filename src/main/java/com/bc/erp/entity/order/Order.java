@@ -1,5 +1,6 @@
 package com.bc.erp.entity.order;
 
+import com.bc.erp.entity.GoodsSpec;
 import com.bc.erp.utils.CommonUtil;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class Order {
     private String goodsPhotos;
     private String goodsUnit;
     private String typeName;
+    private List<GoodsSpec> goodsSpecList;
 
     private String currency;
     private String createId;
@@ -211,6 +213,14 @@ public class Order {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public List<GoodsSpec> getGoodsSpecList() {
+        return goodsSpecList;
+    }
+
+    public void setGoodsSpecList(List<GoodsSpec> goodsSpecList) {
+        this.goodsSpecList = goodsSpecList;
     }
 
     public String getCurrency() {

@@ -1,5 +1,6 @@
 package com.bc.erp.service.br.impl.order;
 
+import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.Goods;
 import com.bc.erp.entity.order.Order;
 import com.bc.erp.enums.GoodsTypeEnum;
@@ -8,9 +9,13 @@ import com.bc.erp.mapper.OrderMapper;
 import com.bc.erp.service.br.OrderNoBrHandler;
 import com.bc.erp.utils.CommonUtil;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 采购订单号生成规则:0001
@@ -40,10 +45,17 @@ public class PurchaseOrderNoRule0001BrHandler implements OrderNoBrHandler {
         if (!StringUtils.isEmpty(order.getParentId())) {
             Order parentOrder = orderMapper.getOrderById(order.getParentId());
             Goods goods = goodsMapper.getGoodsById(order.getGoodsId());
-            if (StringUtils.isEmpty(goods.getTypeSymbol())) {
-                orderNo = parentOrder.getNo() + "-" + GoodsTypeEnum.UD.getOrderSymbol();
+            // 查找是否有相同类型的订单
+            String symbol = StringUtils.isEmpty(goods.getTypeSymbol()) ? GoodsTypeEnum.UD.getOrderSymbol() : goods.getTypeSymbol();
+            Map<String, Object> paramMap = new HashMap<>(Constant.DEFAULT_HASH_MAP_CAPACITY);
+            paramMap.put("parentId", order.getParentId());
+            paramMap.put("symbol", symbol);
+            List<Order> orderList = orderMapper.getOrderListByParentIdAndGoodsType(paramMap);
+            if (CollectionUtils.isEmpty(orderList)) {
+                orderNo = parentOrder.getNo() + "-" + symbol;
             } else {
-                orderNo = parentOrder.getNo() + "-" + goods.getTypeSymbol();
+                int index = orderList.size() + 1;
+                orderNo = parentOrder.getNo() + "-" + symbol + "-" + index;
             }
         } else {
             orderNo = CommonUtil.generateId();

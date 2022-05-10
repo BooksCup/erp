@@ -75,23 +75,26 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
 
         // 联系人
         List<RelatedCompanyContact> contactList = relatedCompany.getRelatedCompanyContactList();
-        for (RelatedCompanyContact contact : contactList) {
-            contact.setId(CommonUtil.generateId());
-            contact.setEnterpriseId(relatedCompany.getEnterpriseId());
-            contact.setRcId(relatedCompany.getId());
-            contact.setCreateId(relatedCompany.getCreateId());
+        if (!CollectionUtils.isEmpty(contactList)) {
+            for (RelatedCompanyContact contact : contactList) {
+                contact.setId(CommonUtil.generateId());
+                contact.setEnterpriseId(relatedCompany.getEnterpriseId());
+                contact.setRcId(relatedCompany.getId());
+                contact.setCreateId(relatedCompany.getCreateId());
+            }
+            relatedCompanyContactMapper.addRelatedCompanyContactList(contactList);
         }
-        relatedCompanyContactMapper.addRelatedCompanyContactList(contactList);
-
         // 账户
         List<RelatedCompanyAccount> accountList = relatedCompany.getRelatedCompanyAccountList();
-        for (RelatedCompanyAccount account : accountList) {
-            account.setId(CommonUtil.generateId());
-            account.setEnterpriseId(relatedCompany.getEnterpriseId());
-            account.setRcId(relatedCompany.getId());
-            account.setCreateId(relatedCompany.getCreateId());
+        if (!CollectionUtils.isEmpty(accountList)) {
+            for (RelatedCompanyAccount account : accountList) {
+                account.setId(CommonUtil.generateId());
+                account.setEnterpriseId(relatedCompany.getEnterpriseId());
+                account.setRcId(relatedCompany.getId());
+                account.setCreateId(relatedCompany.getCreateId());
+            }
+            relatedCompanyAccountMapper.addRelatedCompanyAccountList(accountList);
         }
-        relatedCompanyAccountMapper.addRelatedCompanyAccountList(accountList);
 
     }
 

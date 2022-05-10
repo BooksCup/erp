@@ -85,8 +85,8 @@ public class RelatedCompanyController {
             @RequestParam(required = false) String address,
             @RequestParam String legalPersonName,
             @RequestParam String createId,
-            @RequestParam String relatedCompanyContacts,
-            @RequestParam String relatedCompanyAccounts) {
+            @RequestParam(required = false) String relatedCompanyContacts,
+            @RequestParam(required = false) String relatedCompanyAccounts) {
         ResponseEntity<String> responseEntity;
         try {
             List<RelatedCompanyContact> relatedCompanyContactList = JsonUtil.jsonArrayToList(relatedCompanyContacts, RelatedCompanyContact.class);
