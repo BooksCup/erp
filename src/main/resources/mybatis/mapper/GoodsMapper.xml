@@ -11,6 +11,7 @@
         <result column="spec_y" property="specY" jdbcType="VARCHAR"/>
         <result column="stock_num" property="stockNum" jdbcType="DECIMAL"/>
         <result column="unit" property="unit" jdbcType="VARCHAR"/>
+        <result column="tags" property="tags" jdbcType="VARCHAR"/>
         <result column="type_id" property="typeId" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="type_symbol" property="typeSymbol" jdbcType="VARCHAR"/>
@@ -44,6 +45,7 @@
         spec_x,
         spec_y,
         unit,
+        tags,
         create_id,
         create_time,
         modify_time
@@ -59,11 +61,24 @@
         #{specX},
         #{specY},
         #{unit},
+        #{tags},
         #{createId},
         now(),
         now()
         )
     </insert>
+
+    <update id="updateGoods" parameterType="com.bc.erp.entity.Goods">
+        UPDATE t_goods
+        <set>
+            name = #{name},
+            photos = #{photos},
+            unit = #{unit},
+            tags = #{tags},
+            modify_time = now()
+        </set>
+        WHERE id = #{id}
+    </update>
 
     <select id="getGoodsList" resultMap="goods">
         SELECT g.*,
@@ -97,5 +112,11 @@
         WHERE goods_id = #{goodsId}
         ORDER BY sort ASC
     </select>
+
+    <update id="updateGoodsTags" parameterType="map">
+        UPDATE t_goods
+        SET tags = #{tags}
+        WHERE id = #{goodsId}
+    </update>
 
 </mapper>

@@ -17,8 +17,10 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -96,20 +98,56 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional(rollbackFor = Exception.class)
     public void updateGoods(Goods goods) {
 
-        goodsMapper.addGoods(goods);
+        goodsMapper.updateGoods(goods);
 
+        List<GoodsAttr> goodsAttrList = goods.getGoodsAttrList();
+        List<GoodsAttr> addAttrList = new ArrayList<>();
+        List<GoodsAttr> updateAttrList = new ArrayList<>();
         // 物品属性
-        goodsAttrMapper.deleteGoodsAttrByGoodsId(goods.getId());
-
-        if (!CollectionUtils.isEmpty(goods.getGoodsAttrList())) {
+        if (!CollectionUtils.isEmpty(goodsAttrList)) {
             int sort = 1;
-            for (GoodsAttr goodsAttr : goods.getGoodsAttrList()) {
-                goodsAttr.setSort(sort);
-                goodsAttr.setGoodsId(goods.getId());
-                goodsAttr.setId(CommonUtil.generateId());
+            for (GoodsAttr attr : goodsAttrList) {
+                attr.setSort(sort);
+                if (StringUtils.isEmpty(attr.getId())) {
+                    attr.setId(CommonUtil.generateId());
+                    attr.setEnterpriseId(goods.getEnterpriseId());
+                    addAttrList.add(attr);
+                } else {
+                    updateAttrList.add(attr);
+                }
                 sort++;
             }
-            goodsAttrMapper.addGoodsAttrList(goods.getGoodsAttrList());
+        }
+        if (!CollectionUtils.isEmpty(addAttrList)) {
+            goodsAttrMapper.addGoodsAttrList(addAttrList);
+        }
+        if (!CollectionUtils.isEmpty(updateAttrList)) {
+            goodsAttrMapper.updateGoodsAttrList(updateAttrList);
+        }
+
+        List<GoodsSpec> goodsSpecList = goods.getGoodsSpecList();
+        List<GoodsSpec> addSpecList = new ArrayList<>();
+        List<GoodsSpec> updateSpecList = new ArrayList<>();
+        // 物品属性
+        if (!CollectionUtils.isEmpty(goodsSpecList)) {
+            int sort = 1;
+            for (GoodsSpec spec : goodsSpecList) {
+                spec.setSort(sort);
+                if (StringUtils.isEmpty(spec.getId())) {
+                    spec.setId(CommonUtil.generateId());
+                    spec.setEnterpriseId(goods.getEnterpriseId());
+                    addSpecList.add(spec);
+                } else {
+                    updateSpecList.add(spec);
+                }
+                sort++;
+            }
+        }
+        if (!CollectionUtils.isEmpty(addSpecList)) {
+            goodsSpecMapper.addGoodsSpecList(addSpecList);
+        }
+        if (!CollectionUtils.isEmpty(updateSpecList)) {
+            goodsSpecMapper.updateGoodsSpecList(updateSpecList);
         }
 
     }
@@ -156,6 +194,16 @@ public class GoodsServiceImpl implements GoodsService {
             goods.setGoodsSpecList(goodsSpecList);
         }
         return goods;
+    }
+
+    /**
+     * 更新商品标签
+     *
+     * @param paramMap 参数map
+     */
+    @Override
+    public void updateGoodsTags(Map<String, Object> paramMap) {
+        goodsMapper.updateGoodsTags(paramMap);
     }
 
 }

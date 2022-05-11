@@ -19,6 +19,13 @@ public interface GoodsSpecMapper {
     void addGoodsSpecList(List<GoodsSpec> goodsSpecList);
 
     /**
+     * 修改物品规格列表
+     *
+     * @param goodsSpecList 物品规格列表
+     */
+    void updateGoodsSpecList(List<GoodsSpec> goodsSpecList);
+
+    /**
      * 根据物品ID获取物品规格列表
      *
      * @param goodsId 物品ID

@@ -44,12 +44,13 @@ public class GoodsController {
             @RequestParam String specs,
             @RequestParam String photos,
             @RequestParam String unit,
+            @RequestParam(required = false) String tags,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         try {
             List<GoodsAttr> goodsAttrList = JsonUtil.jsonArrayToList(attrs, GoodsAttr.class);
             List<GoodsSpec> goodsSpecList = JsonUtil.jsonArrayToList(specs, GoodsSpec.class);
-            Goods goods = new Goods(enterpriseId, name, photos, typeId, specX, specY, createId, unit, goodsAttrList, goodsSpecList);
+            Goods goods = new Goods(enterpriseId, name, photos, typeId, specX, specY, createId, unit, tags, goodsAttrList, goodsSpecList);
             goodsService.addGoods(goods);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
@@ -101,20 +102,18 @@ public class GoodsController {
     public ResponseEntity<String> updateGoods(
             @PathVariable String goodsId,
             @RequestParam String name,
-            @RequestParam String type,
             @RequestParam String attrs,
-            @RequestParam String specX,
-            @RequestParam(required = false) String specY,
-            @RequestParam String unit,
             @RequestParam String specs,
-            @RequestParam String photos) {
+            @RequestParam String unit,
+            @RequestParam String photos,
+            @RequestParam String tags) {
         ResponseEntity<String> responseEntity;
         try {
             List<GoodsAttr> goodsAttrList = JsonUtil.jsonArrayToList(attrs, GoodsAttr.class);
             List<GoodsSpec> goodsSpecList = JsonUtil.jsonArrayToList(specs, GoodsSpec.class);
-            Goods goods = new Goods("", name, photos, type, specX, specY, "", unit, goodsAttrList, goodsSpecList);
+            Goods goods = new Goods(name, photos, unit, tags, goodsAttrList, goodsSpecList);
             goods.setId(goodsId);
-            goodsService.addGoods(goods);
+            goodsService.updateGoods(goods);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

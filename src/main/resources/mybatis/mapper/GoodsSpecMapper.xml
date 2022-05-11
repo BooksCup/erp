@@ -38,6 +38,18 @@
         </foreach>
     </insert>
 
+    <update id="updateGoodsSpecList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_goods_spec
+            <set>
+                x = #{item.x},
+                y = #{item.y},
+                sort = #{item.sort}
+            </set>
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
     <select id="getGoodsSpecListByGoodsId" resultMap="goodsSpec">
         SELECT *
         FROM t_goods_spec

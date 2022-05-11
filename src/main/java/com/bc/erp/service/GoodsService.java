@@ -55,4 +55,10 @@ public interface GoodsService {
      */
     Goods getGoodsById(String goodsId);
 
+    /**
+     * 更新商品标签
+     * @param paramMap 参数map
+     */
+    void updateGoodsTags(Map<String, Object> paramMap);
+
 }

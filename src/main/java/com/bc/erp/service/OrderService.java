@@ -48,4 +48,11 @@ public interface OrderService {
      */
     Order getOrderById(String id);
 
+    /**
+     * 根据订单ID删除订单
+     *
+     * @param id 订单ID
+     */
+    void deleteOrderById(String id);
+
 }

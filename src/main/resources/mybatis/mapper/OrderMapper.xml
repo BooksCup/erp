@@ -143,7 +143,7 @@
         LEFT JOIN t_project p ON o.project_id = p.id
         LEFT JOIN t_goods g ON o.goods_id = g.id
         LEFT JOIN t_goods_type gt ON g.type_id = gt.id
-        LEFT JOIN t_user u on o.create_id = u.id
+        LEFT JOIN t_user u ON o.create_id = u.id
         WHERE o.id = #{id}
     </select>
 
@@ -155,5 +155,11 @@
         WHERE o.parent_id = #{parentId}
         AND gt.symbol = #{symbol}
     </select>
+
+    <delete id="deleteOrderById" parameterType="String">
+        UPDATE t_order
+        SET delete_status = '1'
+        WHERE id = #{id}
+    </delete>
 
 </mapper>

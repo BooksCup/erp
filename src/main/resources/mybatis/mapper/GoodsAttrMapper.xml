@@ -49,4 +49,16 @@
         WHERE goods_id = #{goodsId}
     </select>
 
+    <update id="updateGoodsAttrList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_goods_attr
+            <set>
+                attr_key = #{item.attrKey},
+                attr_value = #{item.attrKey},
+                sort = #{item.sort},
+            </set>
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
 </mapper>

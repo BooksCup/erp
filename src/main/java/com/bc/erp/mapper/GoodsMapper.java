@@ -44,4 +44,16 @@ public interface GoodsMapper {
      */
     Goods getGoodsById(String goodsId);
 
+    /**
+     * 更新商品
+     * @param goods 商品
+     */
+    void updateGoods(Goods goods);
+
+    /**
+     * 更新商品标签
+     * @param paramMap 参数map
+     */
+    void updateGoodsTags(Map<String, Object> paramMap);
+
 }

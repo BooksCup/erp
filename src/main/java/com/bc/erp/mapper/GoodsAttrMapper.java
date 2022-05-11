@@ -19,6 +19,13 @@ public interface GoodsAttrMapper {
     void addGoodsAttrList(List<GoodsAttr> goodsAttrList);
 
     /**
+     * 修改物品属性列表
+     *
+     * @param goodsAttrList 物品属性列表
+     */
+    void updateGoodsAttrList(List<GoodsAttr> goodsAttrList);
+
+    /**
      * 根据物品主键获取物品属性列表
      *
      * @param goodsId 物品主键

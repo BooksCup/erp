@@ -191,4 +191,14 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+    /**
+     * 根据订单ID删除订单
+     *
+     * @param id 订单ID
+     */
+    @Override
+    public void deleteOrderById(String id) {
+        orderMapper.deleteOrderById(id);
+    }
+
 }

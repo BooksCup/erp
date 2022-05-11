@@ -115,4 +115,18 @@ public class OrderController {
         return responseEntity;
     }
 
+    @ApiOperation(value = "根据订单ID删除订单", notes = "根据订单ID删除订单")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> deleteOrderById(
+            @PathVariable String id) {
+        ResponseEntity<String> responseEntity;
+        try {
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_SUCCESS.getCode(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
 }
