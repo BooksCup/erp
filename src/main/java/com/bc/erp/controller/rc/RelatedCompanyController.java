@@ -1,4 +1,4 @@
-package com.bc.erp.controller;
+package com.bc.erp.controller.rc;
 
 import com.bc.erp.cons.Constant;
 import com.bc.erp.entity.RelatedCompany;

@@ -44,17 +44,17 @@
         AND delete_status = '0'
     </select>
 
-    <select id="deleteGoodsAttrByGoodsId" parameterType="String">
+    <delete id="deleteGoodsAttrByGoodsId" parameterType="String">
         DELETE
         FROM t_goods_attr
         WHERE goods_id = #{goodsId}
-    </select>
+    </delete>
 
-    <select id="deleteGoodsAttrById" parameterType="String">
+    <delete id="deleteGoodsAttrById" parameterType="String">
         UPDATE t_goods_attr
         SET delete_status = '1'
         WHERE id = #{id}
-    </select>
+    </delete>
 
     <update id="updateGoodsAttrList" parameterType="list">
         <foreach collection="list" item="item" index="index" open="" close="" separator=";">

@@ -50,4 +50,11 @@
         </foreach>
     </update>
 
+    <delete id="deleteRcContact" parameterType="String">
+        UPDATE t_related_company_contact
+        SET delete_status = '1',
+        delete_time = now()
+        WHERE id = #{id}
+    </delete>
+
 </mapper>
