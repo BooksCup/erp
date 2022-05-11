@@ -41,12 +41,19 @@
         SELECT *
         FROM t_goods_attr
         WHERE goods_id = #{goodsId}
+        AND delete_status = '0'
     </select>
 
     <select id="deleteGoodsAttrByGoodsId" parameterType="String">
         DELETE
         FROM t_goods_attr
         WHERE goods_id = #{goodsId}
+    </select>
+
+    <select id="deleteGoodsAttrById" parameterType="String">
+        UPDATE t_goods_attr
+        SET delete_status = '1'
+        WHERE id = #{id}
     </select>
 
     <update id="updateGoodsAttrList" parameterType="list">

@@ -25,6 +25,7 @@ public class Goods {
     private BigDecimal stockNum;
     private String unit;
     private String tags;
+    private String remark;
     private String createId;
     private String createName;
     private String createTime;
@@ -37,6 +38,7 @@ public class Goods {
 
     public Goods(String enterpriseId, String name, String photos, String typeId,
                  String specX, String specY, String createId, String unit, String tags,
+                 String remark,
                  List<GoodsAttr> goodsAttrList, List<GoodsSpec> goodsSpecList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
@@ -48,16 +50,18 @@ public class Goods {
         this.createId = createId;
         this.unit = unit;
         this.tags = tags;
+        this.remark = remark;
         this.goodsSpecList = goodsSpecList;
         this.goodsAttrList = goodsAttrList;
     }
 
-    public Goods(String name, String photos, String unit, String tags,
+    public Goods(String name, String photos, String unit, String tags, String remark,
                  List<GoodsAttr> goodsAttrList, List<GoodsSpec> goodsSpecList) {
         this.name = name;
         this.photos = photos;
         this.unit = unit;
         this.tags = tags;
+        this.remark = remark;
         this.goodsSpecList = goodsSpecList;
         this.goodsAttrList = goodsAttrList;
     }
@@ -164,6 +168,14 @@ public class Goods {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getCreateId() {

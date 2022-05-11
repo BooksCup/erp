@@ -40,4 +40,11 @@ public interface GoodsAttrMapper {
      */
     void deleteGoodsAttrByGoodsId(String goodsId);
 
+    /**
+     * 根据属性ID删除属性
+     *
+     * @param attrId 属性ID
+     */
+    void deleteGoodsAttrById(String attrId);
+
 }

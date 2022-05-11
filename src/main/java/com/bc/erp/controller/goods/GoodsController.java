@@ -45,12 +45,14 @@ public class GoodsController {
             @RequestParam String photos,
             @RequestParam String unit,
             @RequestParam(required = false) String tags,
+            @RequestParam(required = false) String remark,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
         try {
             List<GoodsAttr> goodsAttrList = JsonUtil.jsonArrayToList(attrs, GoodsAttr.class);
             List<GoodsSpec> goodsSpecList = JsonUtil.jsonArrayToList(specs, GoodsSpec.class);
-            Goods goods = new Goods(enterpriseId, name, photos, typeId, specX, specY, createId, unit, tags, goodsAttrList, goodsSpecList);
+            Goods goods = new Goods(enterpriseId, name, photos, typeId, specX,
+                    specY, createId, unit, tags, remark, goodsAttrList, goodsSpecList);
             goodsService.addGoods(goods);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
@@ -106,12 +108,13 @@ public class GoodsController {
             @RequestParam String specs,
             @RequestParam String unit,
             @RequestParam String photos,
-            @RequestParam String tags) {
+            @RequestParam String tags,
+            @RequestParam String remark) {
         ResponseEntity<String> responseEntity;
         try {
             List<GoodsAttr> goodsAttrList = JsonUtil.jsonArrayToList(attrs, GoodsAttr.class);
             List<GoodsSpec> goodsSpecList = JsonUtil.jsonArrayToList(specs, GoodsSpec.class);
-            Goods goods = new Goods(name, photos, unit, tags, goodsAttrList, goodsSpecList);
+            Goods goods = new Goods(name, photos, unit, tags, remark, goodsAttrList, goodsSpecList);
             goods.setId(goodsId);
             goodsService.updateGoods(goods);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
