@@ -14,7 +14,8 @@
         currency,
         remark,
         create_id,
-        create_time
+        create_time,
+        modify_time
         )
         VALUES
         <foreach collection="list" item="item" separator=",">
@@ -28,21 +29,24 @@
             #{item.currency},
             #{item.remark},
             #{item.createId},
+            now(),
             now()
             )
         </foreach>
     </insert>
 
     <update id="updateRelatedCompanyAccountList" parameterType="list">
-        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE t_related_company_account
-            SET
-            name = #{name},
-            bank = #{bank},
-            number = #{number},
-            currency = #{currency},
-            remark = #{remark}
-            where id = #{id}
+            <set>
+                name = #{item.name},
+                bank = #{item.bank},
+                number = #{item.number},
+                currency = #{item.currency},
+                remark = #{item.remark},
+                modify_time = now()
+            </set>
+            WHERE id = #{item.id}
         </foreach>
     </update>
 

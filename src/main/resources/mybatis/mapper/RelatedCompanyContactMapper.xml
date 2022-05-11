@@ -14,7 +14,8 @@
         phone,
         email,
         create_id,
-        create_time
+        create_time,
+        modify_time
         )
         VALUES
         <foreach collection="list" item="item" separator=",">
@@ -28,23 +29,25 @@
             #{item.phone},
             #{item.email},
             #{item.createId},
+            now(),
             now()
             )
         </foreach>
     </insert>
 
     <update id="updateRelatedCompanyContactList" parameterType="list">
-        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
             UPDATE t_related_company_contact
-            SET
-            name = #{name},
-            sex = #{sex},
-            job = #{job},
-            phone = #{phone},
-            email = #{email}
-            where id = #{id}
+            <set>
+                name = #{item.name},
+                sex = #{item.sex},
+                job = #{item.job},
+                phone = #{item.phone},
+                email = #{item.email},
+                modify_time = now()
+            </set>
+            WHERE id = #{item.id}
         </foreach>
     </update>
-
 
 </mapper>

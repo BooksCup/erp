@@ -75,6 +75,21 @@ public class RelatedCompanyController {
         return responseEntity;
     }
 
+    @ApiOperation(value = "获取往来单位详情", notes = "获取往来单位详情")
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<RelatedCompany> getRelatedCompanyById(
+            @PathVariable String id) {
+        ResponseEntity<RelatedCompany> responseEntity;
+        try {
+            RelatedCompany relatedCompany = relatedCompanyService.getRelatedCompanyById(id);
+            responseEntity = new ResponseEntity<>(relatedCompany, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(new RelatedCompany(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
     @ApiOperation(value = "新增往来单位", notes = "新增往来单位")
     @PostMapping(value = "")
     public ResponseEntity<String> addRelatedCompany(
@@ -94,6 +109,32 @@ public class RelatedCompanyController {
             RelatedCompany relatedCompany = new RelatedCompany(enterpriseId, name, alias, logo,
                     address, legalPersonName, createId, relatedCompanyContactList, relatedCompanyAccountList);
             relatedCompanyService.addRelatedCompany(relatedCompany);
+            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(ResponseMsg.ADD_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "更新往来单位", notes = "更新往来单位")
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<String> updateRelatedCompany(
+            @PathVariable String id,
+            @RequestParam String name,
+            @RequestParam String alias,
+            @RequestParam String address,
+            @RequestParam String legalPersonName,
+            @RequestParam(required = false) String relatedCompanyContacts,
+            @RequestParam(required = false) String relatedCompanyAccounts) {
+        ResponseEntity<String> responseEntity;
+        try {
+            List<RelatedCompanyContact> relatedCompanyContactList = JsonUtil.jsonArrayToList(relatedCompanyContacts, RelatedCompanyContact.class);
+            List<RelatedCompanyAccount> relatedCompanyAccountList = JsonUtil.jsonArrayToList(relatedCompanyAccounts, RelatedCompanyAccount.class);
+            RelatedCompany relatedCompany = new RelatedCompany(name, alias, address,
+                    legalPersonName, relatedCompanyContactList, relatedCompanyAccountList);
+            relatedCompany.setId(id);
+            relatedCompanyService.updateRelatedCompany(relatedCompany);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

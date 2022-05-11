@@ -16,6 +16,11 @@
                     ofType="com.bc.erp.entity.RelatedCompanyContact"
                     select="getRcContactListByRcId"
                     column="id"/>
+        <collection property="relatedCompanyAccountList"
+                    javaType="list"
+                    ofType="com.bc.erp.entity.RelatedCompanyAccount"
+                    select="getRcAccountListByRcId"
+                    column="id"/>
     </resultMap>
 
     <resultMap id="relatedCompanyContact" type="com.bc.erp.entity.RelatedCompanyContact">
@@ -27,6 +32,16 @@
         <result column="job" property="job" jdbcType="VARCHAR"/>
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="email" property="email" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="relatedCompanyAccount" type="com.bc.erp.entity.RelatedCompanyAccount">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR"/>
+        <result column="rc_id" property="rcId" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="bank" property="bank" jdbcType="VARCHAR"/>
+        <result column="number" property="number" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
     </resultMap>
 
     <insert id="addRelatedCompany" parameterType="com.bc.erp.entity.RelatedCompany">
@@ -56,6 +71,18 @@
         )
     </insert>
 
+    <update id="updateRelatedCompany" parameterType="com.bc.erp.entity.RelatedCompany">
+        UPDATE t_related_company
+        <set>
+            name = #{name},
+            alias = #{alias},
+            address = #{address},
+            legal_person_name = #{legalPersonName},
+            modify_time = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+
     <select id="getRelatedCompanyList" resultMap="relatedCompany">
         SELECT *
         FROM t_related_company
@@ -67,9 +94,22 @@
         ORDER BY modify_time DESC
     </select>
 
+    <select id="getRelatedCompanyById" resultMap="relatedCompany">
+        SELECT *
+        FROM t_related_company
+        WHERE id = #{id}
+    </select>
+
     <select id="getRcContactListByRcId" resultMap="relatedCompanyContact">
         SELECT *
         FROM t_related_company_contact
+        WHERE rc_id = #{id}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getRcAccountListByRcId" resultMap="relatedCompanyAccount">
+        SELECT *
+        FROM t_related_company_account
         WHERE rc_id = #{id}
         ORDER BY create_time DESC
     </select>

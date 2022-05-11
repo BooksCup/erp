@@ -27,4 +27,19 @@ public interface RelatedCompanyMapper {
      */
     void addRelatedCompany(RelatedCompany relatedCompany);
 
+    /**
+     * 更新往来单位
+     *
+     * @param relatedCompany 往来单位
+     */
+    void updateRelatedCompany(RelatedCompany relatedCompany);
+
+    /**
+     * 根据主键获取往来单位
+     *
+     * @param id 主键
+     * @return 往来单位
+     */
+    RelatedCompany getRelatedCompanyById(String id);
+
 }

@@ -42,6 +42,16 @@ public class RelatedCompany {
         this.relatedCompanyAccountList = relatedCompanyAccountList;
     }
 
+    public RelatedCompany(String name, String alias, String address, String legalPersonName,
+                          List<RelatedCompanyContact> relatedCompanyContactList, List<RelatedCompanyAccount> relatedCompanyAccountList) {
+        this.name = name;
+        this.alias = alias;
+        this.address = address;
+        this.legalPersonName = legalPersonName;
+        this.relatedCompanyContactList = relatedCompanyContactList;
+        this.relatedCompanyAccountList = relatedCompanyAccountList;
+    }
+
     public String getId() {
         return id;
     }

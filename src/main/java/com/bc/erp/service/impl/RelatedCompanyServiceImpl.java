@@ -99,14 +99,14 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
     }
 
     /**
-     * 新增往来单位
+     * 更新往来单位
      *
      * @param relatedCompany 往来单位
      */
-//    @Override
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateRelatedCompany(RelatedCompany relatedCompany) {
-        relatedCompanyMapper.addRelatedCompany(relatedCompany);
+        relatedCompanyMapper.updateRelatedCompany(relatedCompany);
 
         // 联系人
         List<RelatedCompanyContact> contactList = relatedCompany.getRelatedCompanyContactList();
@@ -152,6 +152,17 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
             relatedCompanyAccountMapper.updateRelatedCompanyAccountList(updateAccountList);
         }
 
+    }
+
+    /**
+     * 根据主键获取往来单位
+     *
+     * @param id 主键
+     * @return 往来单位
+     */
+    @Override
+    public RelatedCompany getRelatedCompanyById(String id) {
+        return relatedCompanyMapper.getRelatedCompanyById(id);
     }
 
 }
