@@ -20,6 +20,13 @@ public interface OrderMaterialMapper {
     void addOrderMaterialList(List<OrderMaterial> orderMaterialList);
 
     /**
+     * 修改材料单列表
+     *
+     * @param orderMaterialList 材料单列表
+     */
+    void updateOrderMaterialList(List<OrderMaterial> orderMaterialList);
+
+    /**
      * 获取材料单列表
      *
      * @param paramMap 参数map

@@ -8,18 +8,21 @@ import com.bc.erp.entity.order.OrderDelivery;
 import com.bc.erp.entity.order.OrderDeliveryDetail;
 import com.bc.erp.entity.order.OrderMaterial;
 import com.bc.erp.enums.OrderTypeEnum;
+import com.bc.erp.enums.PriceMethodEnum;
 import com.bc.erp.mapper.*;
 import com.bc.erp.service.OrderService;
 import com.bc.erp.service.br.OrderNoBrHandlerFactory;
+import com.bc.erp.utils.BigDecimalUtil;
 import com.bc.erp.utils.CommonUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -86,6 +89,7 @@ public class OrderServiceImpl implements OrderService {
                 orderMaterial.setId(CommonUtil.generateId());
                 orderMaterial.setOrderId(order.getId());
                 orderMaterial.setCreateId(order.getCreateId());
+                orderMaterial.setEnterpriseId(order.getEnterpriseId());
             }
             orderMaterialMapper.addOrderMaterialList(order.getOrderMaterialList());
         }
@@ -98,22 +102,118 @@ public class OrderServiceImpl implements OrderService {
                 orderDelivery.setId(deliveryId);
                 orderDelivery.setOrderId(order.getId());
                 orderDelivery.setCreateId(order.getCreateId());
+                orderDelivery.setEnterpriseId(order.getEnterpriseId());
                 List<OrderDeliveryDetail> detailList = orderDelivery.getOrderDeliveryDetailList();
                 if (!CollectionUtils.isEmpty(detailList)) {
                     for (OrderDeliveryDetail detail : detailList) {
                         detail.setId(CommonUtil.generateId());
                         detail.setOrderId(order.getId());
                         detail.setDeliveryId(deliveryId);
+                        detail.setEnterpriseId(order.getEnterpriseId());
                     }
                     orderDeliveryDetailList.addAll(detailList);
                 }
             }
             orderDeliveryMapper.addOrderDeliveryList(orderDeliveryList);
         }
+
         if (!CollectionUtils.isEmpty(orderDeliveryDetailList)) {
+            orderDeliveryDetailList = getPriceFromOrder(order, orderDeliveryDetailList);
             orderDeliveryMapper.addOrderDeliveryDetailList(orderDeliveryDetailList);
         }
 
+    }
+
+    /**
+     * 修改订单
+     *
+     * @param order 订单
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateOrder(Order order) {
+        orderMapper.updateOrder(order);
+
+        // 材料单
+        List<OrderMaterial> orderMaterialList = order.getOrderMaterialList();
+        List<OrderMaterial> addMaterialList = new ArrayList<>();
+        List<OrderMaterial> updateMaterialList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(orderMaterialList)) {
+            for (OrderMaterial orderMaterial : orderMaterialList) {
+                if (StringUtils.isEmpty(orderMaterial.getId())) {
+                    orderMaterial.setId(CommonUtil.generateId());
+                    orderMaterial.setOrderId(order.getId());
+                    orderMaterial.setEnterpriseId(order.getEnterpriseId());
+                    addMaterialList.add(orderMaterial);
+                } else {
+                    updateMaterialList.add(orderMaterial);
+                }
+            }
+        }
+        if (!CollectionUtils.isEmpty(addMaterialList)) {
+            orderMaterialMapper.addOrderMaterialList(addMaterialList);
+        }
+        if (!CollectionUtils.isEmpty(updateMaterialList)) {
+            orderMaterialMapper.updateOrderMaterialList(updateMaterialList);
+        }
+
+        List<OrderDelivery> orderDeliveryList = order.getOrderDeliveryList();
+        List<OrderDelivery> addDeliveryList = new ArrayList<>();
+        List<OrderDelivery> updateDeliveryList = new ArrayList<>();
+        List<OrderDeliveryDetail> addDeliveryDetailList = new ArrayList<>();
+        List<OrderDeliveryDetail> updateDeliveryDetailList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(orderDeliveryList)) {
+            for (OrderDelivery orderDelivery : orderDeliveryList) {
+                if (StringUtils.isEmpty(orderDelivery.getId())) {
+                    String deliveryId = CommonUtil.generateId();
+                    orderDelivery.setId(deliveryId);
+                    orderDelivery.setOrderId(order.getId());
+                    orderDelivery.setCreateId(order.getCreateId());
+                    orderDelivery.setEnterpriseId(order.getEnterpriseId());
+                    List<OrderDeliveryDetail> detailList = orderDelivery.getOrderDeliveryDetailList();
+                    if (!CollectionUtils.isEmpty(detailList)) {
+                        for (OrderDeliveryDetail detail : detailList) {
+                            detail.setId(CommonUtil.generateId());
+                            detail.setOrderId(order.getId());
+                            detail.setDeliveryId(deliveryId);
+                            detail.setEnterpriseId(order.getEnterpriseId());
+                        }
+                        addDeliveryDetailList.addAll(detailList);
+                    }
+                    addDeliveryList.add(orderDelivery);
+                } else {
+                    updateDeliveryList.add(orderDelivery);
+                    List<OrderDeliveryDetail> detailList = orderDelivery.getOrderDeliveryDetailList();
+                    if (!CollectionUtils.isEmpty(detailList)) {
+                        for (OrderDeliveryDetail detail : detailList) {
+                            if (StringUtils.isEmpty(detail.getId())) {
+                                detail.setId(CommonUtil.generateId());
+                                detail.setOrderId(order.getId());
+                                detail.setDeliveryId(orderDelivery.getId());
+                                detail.setEnterpriseId(order.getEnterpriseId());
+                                addDeliveryDetailList.add(detail);
+                            } else {
+                                updateDeliveryDetailList.add(detail);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (!CollectionUtils.isEmpty(addDeliveryList)) {
+            orderDeliveryMapper.addOrderDeliveryList(addDeliveryList);
+        }
+        if (!CollectionUtils.isEmpty(updateDeliveryList)) {
+            orderDeliveryMapper.updateOrderDeliveryList(updateDeliveryList);
+        }
+        if (!CollectionUtils.isEmpty(addDeliveryDetailList)) {
+            addDeliveryDetailList = getPriceFromOrder(order, addDeliveryDetailList);
+            orderDeliveryMapper.addOrderDeliveryDetailList(addDeliveryDetailList);
+        }
+        if (!CollectionUtils.isEmpty(updateDeliveryDetailList)) {
+            updateDeliveryDetailList = getPriceFromOrder(order, updateDeliveryDetailList);
+            orderDeliveryMapper.updateOrderDeliveryDetailList(updateDeliveryDetailList);
+        }
     }
 
     /**
@@ -199,6 +299,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrderById(String id) {
         orderMapper.deleteOrderById(id);
+    }
+
+    /**
+     * 获取订单价格
+     *
+     * @param order                   订单
+     * @param orderDeliveryDetailList 订单交期详情列表
+     * @return 订单交期详情列表
+     */
+    private List<OrderDeliveryDetail> getPriceFromOrder(Order order, List<OrderDeliveryDetail> orderDeliveryDetailList) {
+        // 填充价格
+        if (PriceMethodEnum.AVERAGE_PRICE.getCode().equals(order.getPriceMethod())) {
+            for (OrderDeliveryDetail detail : orderDeliveryDetailList) {
+                detail.setPrice(new BigDecimalUtil().object2BigDecimal(order.getPriceData()));
+            }
+        }
+        return orderDeliveryDetailList;
     }
 
 }

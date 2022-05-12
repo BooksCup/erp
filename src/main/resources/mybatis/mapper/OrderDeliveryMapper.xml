@@ -28,6 +28,7 @@
         insert into t_order_delivery
         (
         id,
+        enterprise_id,
         order_id,
         date,
         unit,
@@ -39,6 +40,7 @@
         <foreach collection="list" item="item" separator=",">
             (
             #{item.id},
+            #{item.enterpriseId},
             #{item.orderId},
             #{item.date},
             #{item.unit},
@@ -53,26 +55,53 @@
         insert into t_order_delivery_detail
         (
         id,
+        enterprise_id,
         order_id,
         delivery_id,
         goods_id,
         spec_id,
         num,
+        price,
         create_time
         )
         values
         <foreach collection="list" item="item" separator=",">
             (
             #{item.id},
+            #{item.enterpriseId},
             #{item.orderId},
             #{item.deliveryId},
             #{item.goodsId},
             #{item.specId},
             #{item.num},
+            #{item.price},
             now()
             )
         </foreach>
     </insert>
+
+    <update id="updateOrderDeliveryList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_order_delivery
+            <set>
+                date = #{item.date},
+                unit =  #{item.unit},
+                remark = #{item.remark}
+            </set>
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <update id="updateOrderDeliveryDetailList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_order_delivery_detail
+            <set>
+                price = #{item.price},
+                num = #{item.num}
+            </set>
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
 
     <select id="getOrderDeliveryList" resultMap="orderDelivery">
         SELECT *

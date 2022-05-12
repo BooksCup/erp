@@ -2,7 +2,6 @@ package com.bc.erp.service;
 
 import com.bc.erp.entity.order.Order;
 import com.github.pagehelper.PageInfo;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,13 @@ public interface OrderService {
      * @param order 订单
      */
     void addOrder(Order order);
+
+    /**
+     * 修改订单
+     *
+     * @param order 订单
+     */
+    void updateOrder(Order order);
 
     /**
      * 新增订单列表

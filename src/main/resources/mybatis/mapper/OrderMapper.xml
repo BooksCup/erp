@@ -22,6 +22,8 @@
         <result column="goods_unit" property="goodsUnit" jdbcType="VARCHAR"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
         <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="price_method" property="priceMethod" jdbcType="VARCHAR"/>
+        <result column="price_data" property="priceData" jdbcType="VARCHAR"/>
         <result column="create_id" property="createId" jdbcType="VARCHAR"/>
         <result column="create_name" property="createName" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
@@ -39,6 +41,9 @@
         no,
         project_id,
         goods_id,
+        price_method,
+        price_data,
+        currency,
         create_id,
         create_time,
         modify_time
@@ -54,11 +59,27 @@
         #{no},
         #{projectId},
         #{goodsId},
+        #{priceMethod},
+        #{priceData},
+        #{currency},
         #{createId},
         now(),
         now()
         )
     </insert>
+
+    <update id="updateOrder" parameterType="com.bc.erp.entity.order.Order">
+        UPDATE t_order
+        SET rc_id = #{rcId},
+        rc_contact_id = #{rcContactId},
+        project_id = #{projectId},
+        currency = #{currency},
+        price_method = #{priceMethod},
+        price_data = #{priceData},
+        currency = #{currency},
+        modify_time = now()
+        WHERE id = #{id}
+    </update>
 
     <insert id="addOrderList" parameterType="list">
         INSERT INTO t_order

@@ -10,6 +10,7 @@ import java.util.List;
 public class OrderDelivery {
 
     private String id;
+    private String enterpriseId;
     private String orderId;
     private String date;
     private String unit;
@@ -24,6 +25,14 @@ public class OrderDelivery {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     public String getOrderId() {

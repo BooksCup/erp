@@ -119,7 +119,7 @@ public class BigDecimalUtil {
      * @param number 数字对象
      * @return BigDecimal
      */
-    private BigDecimal object2BigDecimal(Object number) {
+    public BigDecimal object2BigDecimal(Object number) {
         BigDecimal bigDecimal;
         try {
             bigDecimal = new BigDecimal(number.toString());

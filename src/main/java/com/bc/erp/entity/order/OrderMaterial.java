@@ -8,6 +8,7 @@ package com.bc.erp.entity.order;
 public class OrderMaterial {
 
     private String id;
+    private String enterpriseId;
     private String orderId;
     private String goodsId;
     private String goodsNo;
@@ -38,6 +39,14 @@ public class OrderMaterial {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     public String getOrderId() {

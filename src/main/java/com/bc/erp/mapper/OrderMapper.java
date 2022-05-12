@@ -36,6 +36,13 @@ public interface OrderMapper {
     void addOrder(Order order);
 
     /**
+     * 修改订单
+     *
+     * @param order 订单
+     */
+    void updateOrder(Order order);
+
+    /**
      * 新增订单列表
      *
      * @param orderList 订单列表

@@ -41,6 +41,10 @@ public class Order {
     private String createId;
     private String createName;
     private String createTime;
+
+    private String priceMethod;
+    private String priceData;
+
     private List<OrderMaterial> orderMaterialList;
     private List<OrderDelivery> orderDeliveryList;
 
@@ -49,7 +53,7 @@ public class Order {
     }
 
     public Order(String enterpriseId, String type, String rcId, String rcContactId,
-                 String goodsId, String projectId, String createId,
+                 String goodsId, String projectId, String createId, String priceMethod, String priceData, String currency,
                  List<OrderMaterial> orderMaterialList, List<OrderDelivery> orderDeliveryList) {
         this.id = CommonUtil.generateId();
         this.enterpriseId = enterpriseId;
@@ -59,6 +63,24 @@ public class Order {
         this.goodsId = goodsId;
         this.projectId = projectId;
         this.createId = createId;
+        this.priceMethod = priceMethod;
+        this.priceData = priceData;
+        this.currency = currency;
+        this.orderMaterialList = orderMaterialList;
+        this.orderDeliveryList = orderDeliveryList;
+    }
+
+    public Order(String enterpriseId, String rcId, String rcContactId, String projectId, String createId,
+                 String priceMethod, String priceData, String currency,
+                 List<OrderMaterial> orderMaterialList, List<OrderDelivery> orderDeliveryList) {
+        this.enterpriseId = enterpriseId;
+        this.rcId = rcId;
+        this.rcContactId = rcContactId;
+        this.projectId = projectId;
+        this.createId = createId;
+        this.priceMethod = priceMethod;
+        this.priceData = priceData;
+        this.currency = currency;
         this.orderMaterialList = orderMaterialList;
         this.orderDeliveryList = orderDeliveryList;
     }
@@ -253,6 +275,22 @@ public class Order {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public String getPriceMethod() {
+        return priceMethod;
+    }
+
+    public void setPriceMethod(String priceMethod) {
+        this.priceMethod = priceMethod;
+    }
+
+    public String getPriceData() {
+        return priceData;
+    }
+
+    public void setPriceData(String priceData) {
+        this.priceData = priceData;
     }
 
     public List<OrderMaterial> getOrderMaterialList() {

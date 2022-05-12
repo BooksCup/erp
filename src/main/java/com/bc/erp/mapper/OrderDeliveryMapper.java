@@ -21,6 +21,13 @@ public interface OrderDeliveryMapper {
     void addOrderDeliveryList(List<OrderDelivery> orderDeliveryList);
 
     /**
+     * 修改交/收货期列表
+     *
+     * @param orderDeliveryList 交/收货期列表
+     */
+    void updateOrderDeliveryList(List<OrderDelivery> orderDeliveryList);
+
+    /**
      * 获取交/收货期列表
      *
      * @param paramMap 参数map
@@ -34,6 +41,13 @@ public interface OrderDeliveryMapper {
      * @param orderDeliveryDetailList 交/收货期明细列表
      */
     void addOrderDeliveryDetailList(List<OrderDeliveryDetail> orderDeliveryDetailList);
+
+    /**
+     * 修改交/收货期明细列表
+     *
+     * @param orderDeliveryDetailList 交/收货期明细列表
+     */
+    void updateOrderDeliveryDetailList(List<OrderDeliveryDetail> orderDeliveryDetailList);
 
     /**
      * 获取交/收货期明细列表

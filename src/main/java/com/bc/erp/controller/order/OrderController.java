@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,9 @@ public class OrderController {
             @RequestParam String goodsId,
             @RequestParam String projectId,
             @RequestParam String orderMaterials,
+            @RequestParam String priceMethod,
+            @RequestParam String priceData,
+            @RequestParam String currency,
             @RequestParam String orderDeliverys,
             @RequestParam String createId) {
         ResponseEntity<String> responseEntity;
@@ -72,12 +76,42 @@ public class OrderController {
             List<OrderMaterial> orderMaterialList = JsonUtil.jsonArrayToList(orderMaterials, OrderMaterial.class);
             List<OrderDelivery> orderDeliveryList = JsonUtil.jsonArrayToList(orderDeliverys, OrderDelivery.class);
             Order order = new Order(enterpriseId, type, rcId, rcContactId, goodsId,
-                    projectId, createId, orderMaterialList, orderDeliveryList);
+                    projectId, createId, priceMethod, priceData, currency, orderMaterialList, orderDeliveryList);
             orderService.addOrder(order);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return responseEntity;
+    }
+
+    @ApiOperation(value = "修改订单", notes = "修改订单")
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<String> updateOrder(
+            @PathVariable String id,
+            @RequestParam String enterpriseId,
+            @RequestParam String rcId,
+            @RequestParam(required = false) String rcContactId,
+            @RequestParam String projectId,
+            @RequestParam String priceMethod,
+            @RequestParam String priceData,
+            @RequestParam String currency,
+            @RequestParam String orderMaterials,
+            @RequestParam String orderDeliverys,
+            @RequestParam String createId) {
+        ResponseEntity<String> responseEntity;
+        try {
+            List<OrderMaterial> orderMaterialList = JsonUtil.jsonArrayToList(orderMaterials, OrderMaterial.class);
+            List<OrderDelivery> orderDeliveryList = JsonUtil.jsonArrayToList(orderDeliverys, OrderDelivery.class);
+            Order order = new Order(enterpriseId, rcId, rcContactId, projectId, createId,
+                    priceMethod, priceData, currency, orderMaterialList, orderDeliveryList);
+            order.setId(id);
+            orderService.updateOrder(order);
+            responseEntity = new ResponseEntity<>(ResponseMsg.UPDATE_SUCCESS.getCode(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>(ResponseMsg.UPDATE_ERROR.getCode(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 public class OrderDeliveryDetail {
 
     private String id;
+    private String enterpriseId;
     private String orderId;
     private String deliveryId;
     private String goodsId;
@@ -17,6 +18,7 @@ public class OrderDeliveryDetail {
     private String specX;
     private String specY;
     private BigDecimal num;
+    private BigDecimal price;
     private String createTime;
 
     public String getId() {
@@ -25,6 +27,14 @@ public class OrderDeliveryDetail {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEnterpriseId() {
+        return enterpriseId;
+    }
+
+    public void setEnterpriseId(String enterpriseId) {
+        this.enterpriseId = enterpriseId;
     }
 
     public String getOrderId() {
@@ -81,6 +91,14 @@ public class OrderDeliveryDetail {
 
     public void setNum(BigDecimal num) {
         this.num = num;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public String getCreateTime() {

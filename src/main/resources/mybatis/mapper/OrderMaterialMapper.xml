@@ -22,6 +22,7 @@
         insert into t_order_material
         (
         id,
+        enterprise_id,
         order_id,
         goods_id,
         position,
@@ -33,6 +34,7 @@
         <foreach collection="list" item="item" separator=",">
             (
             #{item.id},
+            #{item.enterpriseId},
             #{item.orderId},
             #{item.goodsId},
             #{item.position},
@@ -67,6 +69,17 @@
             </set>
             WHERE order_id = #{item.orderId}
             AND goods_id = #{item.goodsId}
+        </foreach>
+    </update>
+
+    <update id="updateOrderMaterialList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_order_material
+            <set>
+                position = #{item.position},
+                currency =  #{item.currency}
+            </set>
+            WHERE id = #{item.id}
         </foreach>
     </update>
 
