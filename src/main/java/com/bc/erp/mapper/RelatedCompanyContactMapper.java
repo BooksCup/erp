@@ -26,10 +26,10 @@ public interface RelatedCompanyContactMapper {
     void updateRelatedCompanyContactList(List<RelatedCompanyContact> relatedCompanyContactList);
 
     /**
-     * 根据联系人ID删除往来单位 - 联系人
+     * 根据联系人ID删除往来单位 - 联系人列表
      *
-     * @param contactId 联系人ID
+     * @param contactList 联系人ID列表
      */
-    void deleteRcContact(String contactId);
+    void deleteRcContactList(List<String> contactList);
 
 }

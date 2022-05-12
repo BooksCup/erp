@@ -111,6 +111,7 @@ public class GoodsServiceImpl implements GoodsService {
                 if (StringUtils.isEmpty(attr.getId())) {
                     attr.setId(CommonUtil.generateId());
                     attr.setEnterpriseId(goods.getEnterpriseId());
+                    attr.setGoodsId(goods.getId());
                     addAttrList.add(attr);
                 } else {
                     updateAttrList.add(attr);
@@ -136,6 +137,7 @@ public class GoodsServiceImpl implements GoodsService {
                 if (StringUtils.isEmpty(spec.getId())) {
                     spec.setId(CommonUtil.generateId());
                     spec.setEnterpriseId(goods.getEnterpriseId());
+                    spec.setGoodsId(goods.getId());
                     addSpecList.add(spec);
                 } else {
                     updateSpecList.add(spec);

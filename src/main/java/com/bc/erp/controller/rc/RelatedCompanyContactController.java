@@ -2,12 +2,14 @@ package com.bc.erp.controller.rc;
 
 import com.bc.erp.enums.ResponseMsg;
 import com.bc.erp.service.RelatedCompanyContactService;
+import com.bc.erp.utils.JsonUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 往来单位 - 联系人
@@ -22,14 +24,15 @@ public class RelatedCompanyContactController {
     @Resource
     RelatedCompanyContactService relatedCompanyContactService;
 
-    @ApiOperation(value = "删除往来单位 - 联系人", notes = "删除往来单位 - 联系人")
-    @DeleteMapping(value = "/{rcId}/contact/{contactId}")
+    @ApiOperation(value = "删除往来单位 - 联系人列表", notes = "删除往来单位 - 联系人列表")
+    @DeleteMapping(value = "/{rcId}/contact/batch")
     public ResponseEntity<String> deleteRcContact(
             @PathVariable String rcId,
-            @PathVariable String contactId) {
+            @RequestParam String contactIds) {
         ResponseEntity<String> responseEntity;
         try {
-            relatedCompanyContactService.deleteRcContact(contactId);
+            List<String> contactIdList = JsonUtil.jsonArrayToList(contactIds, String.class);
+            relatedCompanyContactService.deleteRcContactList(contactIdList);
             responseEntity = new ResponseEntity<>(ResponseMsg.DELETE_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

@@ -117,6 +117,7 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
                 if (StringUtils.isEmpty(contact.getId())) {
                     contact.setId(CommonUtil.generateId());
                     contact.setEnterpriseId(relatedCompany.getEnterpriseId());
+                    contact.setRcId(relatedCompany.getId());
                     addContactList.add(contact);
                 } else {
                     updateContactList.add(contact);
@@ -139,6 +140,7 @@ public class RelatedCompanyServiceImpl implements RelatedCompanyService {
                 if (StringUtils.isEmpty(account.getId())) {
                     account.setId(CommonUtil.generateId());
                     account.setEnterpriseId(CommonUtil.generateId());
+                    account.setRcId(relatedCompany.getId());
                     addAccountList.add(account);
                 } else {
                     updateAccountList.add(account);

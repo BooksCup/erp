@@ -121,6 +121,7 @@ public class RelatedCompanyController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<String> updateRelatedCompany(
             @PathVariable String id,
+            @RequestParam String enterpriseId,
             @RequestParam String name,
             @RequestParam String alias,
             @RequestParam String address,
@@ -134,6 +135,7 @@ public class RelatedCompanyController {
             RelatedCompany relatedCompany = new RelatedCompany(name, alias, address,
                     legalPersonName, relatedCompanyContactList, relatedCompanyAccountList);
             relatedCompany.setId(id);
+            relatedCompany.setEnterpriseId(enterpriseId);
             relatedCompanyService.updateRelatedCompany(relatedCompany);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {

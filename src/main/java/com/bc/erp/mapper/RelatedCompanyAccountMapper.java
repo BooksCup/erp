@@ -26,10 +26,10 @@ public interface RelatedCompanyAccountMapper {
     void updateRelatedCompanyAccountList(List<RelatedCompanyAccount> relatedCompanyAccountList);
 
     /**
-     * 根据账户ID删除往来单位 - 账户
+     * 根据账户ID删除往来单位 - 账户列表
      *
-     * @param accountId 账户ID
+     * @param accountIdList 账户ID列表
      */
-    void deleteRcAccount(String accountId);
+    void deleteRcAccountList(List<String> accountIdList);
 
 }

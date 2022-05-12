@@ -103,6 +103,7 @@ public class GoodsController {
     @PutMapping(value = "/{goodsId}")
     public ResponseEntity<String> updateGoods(
             @PathVariable String goodsId,
+            @RequestParam String enterpriseId,
             @RequestParam String name,
             @RequestParam String attrs,
             @RequestParam String specs,
@@ -116,6 +117,7 @@ public class GoodsController {
             List<GoodsSpec> goodsSpecList = JsonUtil.jsonArrayToList(specs, GoodsSpec.class);
             Goods goods = new Goods(name, photos, unit, tags, remark, goodsAttrList, goodsSpecList);
             goods.setId(goodsId);
+            goods.setEnterpriseId(enterpriseId);
             goodsService.updateGoods(goods);
             responseEntity = new ResponseEntity<>(ResponseMsg.ADD_SUCCESS.getCode(), HttpStatus.OK);
         } catch (Exception e) {

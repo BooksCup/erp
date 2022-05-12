@@ -50,11 +50,15 @@
         </foreach>
     </update>
 
-    <delete id="deleteRcAccount" parameterType="String">
-        UPDATE t_related_company_account
-        SET delete_status = '1',
-        delete_time = now()
-        WHERE id = #{id}
+    <delete id="deleteRcAccountList" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            UPDATE t_related_company_account
+            <set>
+                delete_status = '1',
+                delete_time = now()
+            </set>
+            WHERE id = #{item}
+        </foreach>
     </delete>
 
 </mapper>

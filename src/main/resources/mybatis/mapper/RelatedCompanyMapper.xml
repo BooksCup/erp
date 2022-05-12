@@ -104,6 +104,7 @@
         SELECT *
         FROM t_related_company_contact
         WHERE rc_id = #{id}
+        AND delete_status = '0'
         ORDER BY create_time DESC
     </select>
 
@@ -111,6 +112,7 @@
         SELECT *
         FROM t_related_company_account
         WHERE rc_id = #{id}
+        AND delete_status = '0'
         ORDER BY create_time DESC
     </select>
 
